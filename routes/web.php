@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/Ekhairat/Daftar', [MembershipController::class, 'create'])->name('membership.create');
+    Route::get('/Ekhairat', [MembershipController::class, 'store'])->name('membership.store');
+    Route::post('/membership/confirmation', [MembershipController::class, 'confirmation'])->name('membership.confirmation');
+    Route::get('/Ekhairat/confirmation', [MembershipController::class, 'editConfirmation'])->name('membership.editConfirmation');
 });
+
+Route::get('/Ekhairat/Polisi', [MembershipController::class, 'info'])->name('membership.polisi');
 
 require __DIR__.'/auth.php';

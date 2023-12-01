@@ -74,7 +74,7 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link>
+                            <x-dropdown-link :href="route('membership.create')">
                                 {{ __('Daftar Keahlian') }}
                             </x-dropdown-link>
                             <x-dropdown-link>
@@ -83,7 +83,7 @@
                             <x-dropdown-link>
                                 {{ __('Latar Belakang') }}
                             </x-dropdown-link>
-                            <x-dropdown-link>
+                            <x-dropdown-link :href="route('membership.polisi')">
                                 {{ __('Polisi dan Prosedur') }}
                             </x-dropdown-link>
                         </x-slot>
@@ -98,8 +98,12 @@
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <x-dropdown align="left" width="48">
                         <x-slot name="trigger">
+                        @php
+                            $nameParts = explode(' ', Auth::user()->name);
+                            $firstName = $nameParts[0];
+                        @endphp
                             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                <div>{{ Auth::user()->name }}</div>
+                                <div>{{ $firstName }}</div>
 
                                 <div class="ml-1">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
