@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,17 +17,31 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
-Route::get('/dashboard', function () {
+/* Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard'); */
 
-Route::middleware('auth')->group(function () {
+Route::get('/home' ,[HomeController::class, 'index'])->middleware('auth')->name('home');
+
+Route::middleware(['auth', 'admin'])->group(function(){//route untuk admin yang sudah login
+
+
+});
+
+Route::middleware('auth')->group(function () { //route untuk user yang sudah login
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/Ekhairat/Daftar', [MembershipController::class, 'create'])->name('membership.create');
+    Route::get('/Ekhairat', [MembershipController::class, 'store'])->name('membership.store');
+    Route::post('/membership/confirmation', [MembershipController::class, 'confirmation'])->name('membership.confirmation');
+    Route::get('/Ekhairat/confirmation', [MembershipController::class, 'editConfirmation'])->name('membership.editConfirmation');
 });
+
+Route::get('/Ekhairat/Polisi', [MembershipController::class, 'info'])->name('membership.polisi');
 
 require __DIR__.'/auth.php';

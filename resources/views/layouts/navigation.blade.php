@@ -1,4 +1,19 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+    
+    @if (Route::has('login'))
+        <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
+            @auth
+                <a href="{{ url('/home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
+            @else
+                <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                @endif
+            @endauth
+        </div>
+    @endif
+
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col justify-center items-center h-24"> 
@@ -6,20 +21,20 @@
             <div class="flex items-center justify-center">
                 <!-- Logo -->
                 <div class="shrink-0">
-                    <a href="{{ route('dashboard') }}">
-                        <img src="{{ asset('img/MTSP.png') }}" class="w-8 h-8" /> 
+                    <a href="{{ route('home') }}">
+                        <img src="{{ asset('img/MTSP.png') }}" class="w-8 h-8 pt-4 mb-4" /> 
                     </a>
                 </div>
 
                 <!-- Title -->
-                <div class="ml-2 font-bold text-lg">
-                    Masjid Taman Sri Pulai
+                <div class="ml-2 font-black text-xl drop-shadow-lg">
+                    MASJID TAMAN SRI PULAI
                 </div>
             </div>
 
             <!-- Navigation Links -->
             <div class="hidden space-x-8 sm:flex sm: justify-center sm:items-center"> 
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                     {{ __('Utama') }}
                 </x-nav-link>
 
@@ -74,7 +89,7 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link>
+                            <x-dropdown-link :href="route('membership.create')">
                                 {{ __('Daftar Keahlian') }}
                             </x-dropdown-link>
                             <x-dropdown-link>
@@ -83,7 +98,7 @@
                             <x-dropdown-link>
                                 {{ __('Latar Belakang') }}
                             </x-dropdown-link>
-                            <x-dropdown-link>
+                            <x-dropdown-link :href="route('membership.polisi')">
                                 {{ __('Polisi dan Prosedur') }}
                             </x-dropdown-link>
                         </x-slot>
@@ -96,10 +111,15 @@
 
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
+                    @auth
                     <x-dropdown align="left" width="48">
                         <x-slot name="trigger">
+                        @php
+                            $nameParts = explode(' ', Auth::user()->name);
+                            $firstName = $nameParts[0];
+                        @endphp
                             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                <div>{{ Auth::user()->name }}</div>
+                                <div>{{ $firstName }}</div>
 
                                 <div class="ml-1">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -126,6 +146,7 @@
                             </form>
                         </x-slot>
                     </x-dropdown>
+                    @endauth
                 </div>
             </div>
 
@@ -144,8 +165,9 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+        @auth
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
@@ -174,5 +196,6 @@
                 </form>
             </div>
         </div>
+        @endauth
     </div>
 </nav>
