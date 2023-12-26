@@ -54,7 +54,7 @@
                     {{ __('Berita Masjid') }}
                 </x-nav-link>
 
-                <x-nav-link>
+                <x-nav-link :href="route('infaq.derma')">
                     {{ __('Infaq') }}
                 </x-nav-link>
 
