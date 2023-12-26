@@ -95,19 +95,19 @@
                                     <div class="mt-6 space-y-6">
                                         <div>
                                             <x-input-label for="tanggungans[${tanggunganIndex}][fullname]" :value="__('Nama Penuh')" />
-                                            <x-text-input id="fullname" class="block mt-1 w-full" type="text" name="tanggungans[${tanggunganIndex}][fullname]" :value="$tanggungans['fullname'] ?? old('fullname')" :required="true" />
+                                            <x-text-input id="fullname" class="block mt-1 w-full" type="text" name="tanggungans[${tanggunganIndex}][fullname]"  :required="true" />
                                             <x-input-error class="mt-2" :messages="$errors->get('Nama Penuh')" />
                                         </div>
 
                                         <div>
                                             <x-input-label for="tanggungans[${tanggunganIndex}][ic]" :value="__('NRIC')" />
-                                            <x-text-input id="ic" class="block mt-1 w-full" type="text" name="tanggungans[${tanggunganIndex}][ic]" :value="$tanggungans['ic'] ?? old('ic')" :required="true" placeholder="XXXXXX-XX-XXXX"/>
+                                            <x-text-input id="ic" class="block mt-1 w-full" type="text" name="tanggungans[${tanggunganIndex}][ic]"  :required="true" placeholder="XXXXXX-XX-XXXX"/>
                                             <x-input-error class="mt-2" :messages="$errors->get('NRIC')" />
                                         </div>
 
                                         <div>
                                             <x-input-label for="tanggungans[${tanggunganIndex}][relationship]" :value="__('Relationship')" />
-                                            <x-text-input id="relationship" class="block mt-1 w-full" type="text" name="tanggungans[${tanggunganIndex}][relationship]" :value="$tanggungans['fullname'] ?? old('relationship')" :required="true" />
+                                            <x-text-input id="relationship" class="block mt-1 w-full" type="text" name="tanggungans[${tanggunganIndex}][relationship]" :required="true" />
                                             <x-input-error class="mt-2" :messages="$errors->get('Relationship')" />
                                         </div>
 
