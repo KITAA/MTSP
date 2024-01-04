@@ -9,21 +9,21 @@ class HomeController extends Controller
 {
     public function index()
     {
-        if(Auth::id()){
+        if (Auth::check()) {
+            $usertype = Auth::user()->usertype;
 
-            $usertype=Auth::user()->usertype;
-
-            if($usertype=='user'){
+            if ($usertype == 'user') {
                 return view('dashboard');
-            }
-
-            else if($usertype=='admin'){
+            } elseif ($usertype == 'admin') {
                 return view('admin.dashboard');
-            }
-
-            else{
+            } else {
                 return redirect()->back();
             }
+        } else {
+            // The user is a guest
+            return view('dashboard');
         }
     }
+    
+    
 }
