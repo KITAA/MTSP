@@ -8,9 +8,9 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <h2 class="text-lg font-medium text-gray-900">{{ __('PENDAHULUAN') }}</h2>
+                <h3 class="text-lg font-medium text-gray-900">{{ __('PENDAHULUAN') }}</h3>
                 <h3 class="text-md font-medium text-gray-800 mt-2">{{ __("1.0 Pendahuluan") }}</h3>
-                <p class="mt-2">{{ __("Tabung Khairat Kematian Masjid Taman Sri Pulai, Skudai, Johor (TKKMTSP) adalah satu tabung kebajikan yang ditubuhkan oleh Ahli Jawatan Kuasa dan Pegawai Masjid, Masjid Taman Sri Pulai (MTSP) (sebelum ini Masjid Intan Abu Bakar, Taman Sri Pulai, MIAB) pada tahun 2000. TKKMTSP diamanahkan kepada Biro Kebajikan, Sosial dan Kebudayaan, MTSP untuk diuruskan dengan lebih teratur dan berkesan mulai tahun 2006.") }}</p>
+                <p class="mt-2 text-justify">{{ __("Tabung Khairat Kematian Masjid Taman Sri Pulai, Skudai, Johor (TKKMTSP) adalah satu tabung kebajikan yang ditubuhkan oleh Ahli Jawatan Kuasa dan Pegawai Masjid, Masjid Taman Sri Pulai (MTSP) (sebelum ini Masjid Intan Abu Bakar, Taman Sri Pulai, MIAB) pada tahun 2000. TKKMTSP diamanahkan kepada Biro Kebajikan, Sosial dan Kebudayaan, MTSP untuk diuruskan dengan lebih teratur dan berkesan mulai tahun 2006.") }}</p>
 
 
                 <h3 class="text-md font-medium text-gray-800 mt-4">{{ __('2.0 Objektif Penubuhan TKKMTSP') }}</h3>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fcef82c517ca1cbe47c37dc80aa329d2",
+    "content-hash": "13b94f33c3198598da4587809f00b4f5",
     "packages": [
         {
             "name": "brick/math",
@@ -1047,6 +1047,8 @@
         },
         {
             "name": "laravel/framework",
+
+
             "version": "v10.35.0",
             "source": {
                 "type": "git",
@@ -1057,6 +1059,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/91ec2d92d2f6007e9084fe06438b99c91845da69",
                 "reference": "91ec2d92d2f6007e9084fe06438b99c91845da69",
+
                 "shasum": ""
             },
             "require": {
@@ -1245,7 +1248,9 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
+
             "time": "2023-12-05T14:50:33+00:00"
+
         },
         {
             "name": "laravel/prompts",
@@ -1689,6 +1694,7 @@
         },
         {
             "name": "league/flysystem",
+
             "version": "3.23.0",
             "source": {
                 "type": "git",
@@ -1699,6 +1705,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/d4ad81e2b67396e33dc9d7e54ec74ccf73151dcc",
                 "reference": "d4ad81e2b67396e33dc9d7e54ec74ccf73151dcc",
+
                 "shasum": ""
             },
             "require": {
@@ -1763,7 +1770,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
+
                 "source": "https://github.com/thephpleague/flysystem/tree/3.23.0"
+
             },
             "funding": [
                 {
@@ -1775,6 +1784,7 @@
                     "type": "github"
                 }
             ],
+
             "time": "2023-12-04T10:16:17+00:00"
         },
         {
@@ -1789,6 +1799,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/5cf046ba5f059460e86a997c504dd781a39a109b",
                 "reference": "5cf046ba5f059460e86a997c504dd781a39a109b",
+
                 "shasum": ""
             },
             "require": {
@@ -1823,7 +1834,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem-local/issues",
+
                 "source": "https://github.com/thephpleague/flysystem-local/tree/3.23.0"
+
             },
             "funding": [
                 {
@@ -1835,7 +1848,9 @@
                     "type": "github"
                 }
             ],
+
             "time": "2023-12-04T10:14:46+00:00"
+
         },
         {
             "name": "league/mime-type-detection",
@@ -1892,6 +1907,76 @@
                 }
             ],
             "time": "2023-10-17T14:13:20+00:00"
+        },
+        {
+            "name": "mckenziearts/laravel-notify",
+            "version": "v2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mckenziearts/laravel-notify.git",
+                "reference": "fddde15ae2407792f2884e6f9107d49e9e608cbe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mckenziearts/laravel-notify/zipball/fddde15ae2407792f2884e6f9107d49e9e608cbe",
+                "reference": "fddde15ae2407792f2884e6f9107d49e9e608cbe",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "php": "~8.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.6",
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mckenziearts\\Notify\\LaravelNotifyServiceProvider"
+                    ],
+                    "aliases": {
+                        "Notify": "Mckenziearts\\Notify\\Facades\\LaravelNotify"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Mckenziearts\\Notify\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arthur Monney",
+                    "email": "monneylobe@gmail.com"
+                }
+            ],
+            "description": "Flexible flash notifications for Laravel",
+            "keywords": [
+                "laravel",
+                "laravel-notify",
+                "notification"
+            ],
+            "support": {
+                "issues": "https://github.com/mckenziearts/laravel-notify/issues",
+                "source": "https://github.com/mckenziearts/laravel-notify"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/jvquilichini?locale.x=fr_FR",
+                    "type": "custom"
+                }
+            ],
+            "time": "2023-03-28T05:01:47+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -6506,6 +6591,8 @@
         },
         {
             "name": "phpunit/php-code-coverage",
+
+            
             "version": "10.1.9",
             "source": {
                 "type": "git",
@@ -6516,6 +6603,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/a56a9ab2f680246adcf3db43f38ddf1765774735",
                 "reference": "a56a9ab2f680246adcf3db43f38ddf1765774735",
+
                 "shasum": ""
             },
             "require": {
@@ -6572,7 +6660,9 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
+
                 "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.1.9"
+
             },
             "funding": [
                 {
@@ -6580,7 +6670,9 @@
                     "type": "github"
                 }
             ],
+
             "time": "2023-11-23T12:23:20+00:00"
+
         },
         {
             "name": "phpunit/php-file-iterator",

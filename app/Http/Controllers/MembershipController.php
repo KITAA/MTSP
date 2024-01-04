@@ -13,7 +13,29 @@ class MembershipController extends Controller
      */
     public function index()
     {
-        //
+        $usertype = auth()->user()->usertype;
+
+        if($usertype == 'user'){
+            $user = auth()->user();
+
+            if (!$user->membership) {
+                return redirect()->route('membership.create');
+            }
+
+            $membership = $user->membership;
+
+            return view('E-khairat.semak_ahli', [
+                'membership' => $membership,
+            ]);
+        }
+
+        elseif($usertype == 'admin'){
+            $memberships = Membership::all();
+
+            return view('admin.senarai_ahli', [
+                'memberships' => $memberships,
+            ]);
+        }
     }
 
     public function info()
@@ -23,19 +45,20 @@ class MembershipController extends Controller
 
     public function confirmation(StoreMembershipRequest $request)
     {   
-        if (session()->has('confirmation_data')) {
+        if(session()->has('confirmation_data')){
             session()->forget('confirmation_data');
         }
-
+        
+        
         $validated = $request->validated();
 
         $request->session()->put('confirmation_data', [
-            'ahli' => $validated,
+            'membership' => $validated,
             'tanggungans' => $request->input('tanggungans', []),
         ]);
 
         return view('E-khairat.confirmation', [
-            'ahli' => $validated,
+            'membership' => $validated,
             'tanggungans' => $request->input('tanggungans', []),
         ]);
     }
@@ -49,7 +72,7 @@ class MembershipController extends Controller
         }
 
         return view('E-khairat.daftar_ahli', [
-            'ahli' => $confirmationData['ahli'],
+            'membership' => $confirmationData['membership'],
             'tanggungans' => $confirmationData['tanggungans'],
         ]);
     }
@@ -59,7 +82,10 @@ class MembershipController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {   
+    {   $user = auth()->user();
+        if ($user->membership) {
+            return redirect()->route('membership.index');
+        }
         return view('E-khairat.daftar_ahli');
     }
 
@@ -72,7 +98,7 @@ class MembershipController extends Controller
 
         $confirmationData = session('confirmation_data');
 
-        $ahliData = $confirmationData['ahli'];
+        $ahliData = $confirmationData['membership'];
         $tanggungansData = $confirmationData['tanggungans'];
 
         $membership = $user->membership()->create([
@@ -93,7 +119,7 @@ class MembershipController extends Controller
         }
 
         session()->forget('confirmation_data');
-
+        
         return view('dashboard');
     }
 
@@ -102,7 +128,9 @@ class MembershipController extends Controller
      */
     public function show(Membership $membership)
     {
-        //
+        return view('E-khairat.semak_ahli', [
+            'membership' => $membership,
+        ]);
     }
 
     /**
@@ -110,7 +138,11 @@ class MembershipController extends Controller
      */
     public function edit(Membership $membership)
     {
-        //
+        $this->authorize('edit-membership', $membership);
+
+        return view('E-khairat.daftar_ahli', [
+            'membership' => $membership,
+        ]);
     }
 
     /**
@@ -118,7 +150,39 @@ class MembershipController extends Controller
      */
     public function update(UpdateMembershipRequest $request, Membership $membership)
     {
-        //
+        $validated = $request->validated();
+
+        $membership->update([
+            'fullname' => $validated['fullname'],
+            'ic' => $validated['ic'],
+            'address' => $validated['address'],
+            'phone' => $validated['phone'],
+            'emergency_no' => $validated['emergency_no'],
+        ]);
+        
+        $tanggungans = $request->input('tanggungans', []);
+        $existingTanggunganIds = [];
+
+        foreach ($tanggungans as $tanggungan) {
+            $tanggunganData = [
+                'fullname' => $tanggungan['fullname'],
+                'ic' => $tanggungan['ic'],
+                'relationship' => $tanggungan['relationship'],
+            ];
+
+            if (isset($tanggungan['id'])) {
+                $membership->tanggungan()->where('id', $tanggungan['id'])->update($tanggunganData);
+                $existingTanggunganIds[] = $tanggungan['id'];
+            } else {
+                $createdTanggungan = $membership->tanggungan()->create($tanggunganData);
+                $existingTanggunganIds[] = $createdTanggungan->id;
+            }
+    }
+
+    $membership->tanggungan()->whereNotIn('id', $existingTanggunganIds)->delete();
+
+
+        return redirect()->route('membership.index');
     }
 
     /**
