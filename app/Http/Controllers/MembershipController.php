@@ -119,7 +119,7 @@ class MembershipController extends Controller
         }
 
         session()->forget('confirmation_data');
-
+        
         return view('dashboard');
     }
 
@@ -159,20 +159,28 @@ class MembershipController extends Controller
             'phone' => $validated['phone'],
             'emergency_no' => $validated['emergency_no'],
         ]);
-
-        $tanggungans = $request->input('tanggungans', []);
         
-        foreach ($tanggungans as $tanggunganData) {
-            foreach ($membership->tanggungan as $tanggungan) {
-            
-                    $tanggungan->update([
-                        'fullname' => $tanggunganData['fullname'],
-                        'ic' => $tanggunganData['ic'],
-                        'relationship' => $tanggunganData['relationship'],
-                    ]);
-                
+        $tanggungans = $request->input('tanggungans', []);
+        $existingTanggunganIds = [];
+
+        foreach ($tanggungans as $tanggungan) {
+            $tanggunganData = [
+                'fullname' => $tanggungan['fullname'],
+                'ic' => $tanggungan['ic'],
+                'relationship' => $tanggungan['relationship'],
+            ];
+
+            if (isset($tanggungan['id'])) {
+                $membership->tanggungan()->where('id', $tanggungan['id'])->update($tanggunganData);
+                $existingTanggunganIds[] = $tanggungan['id'];
+            } else {
+                $createdTanggungan = $membership->tanggungan()->create($tanggunganData);
+                $existingTanggunganIds[] = $createdTanggungan->id;
             }
-        }
+    }
+
+    $membership->tanggungan()->whereNotIn('id', $existingTanggunganIds)->delete();
+
 
         return redirect()->route('membership.index');
     }
