@@ -6,6 +6,7 @@ use App\Models\Informasi;
 use App\Http\Requests\StoreInformasiRequest;
 use App\Http\Requests\UpdateInformasiRequest;
 
+
 class InformasiController extends Controller
 {
     /**
@@ -14,16 +15,29 @@ class InformasiController extends Controller
     public function index()
     {
         //
+        
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+
+     public function create()
+     {
+         //
+     }
+ 
+    public function visi_misi()
     {
+        return view('informasi.visi_misi');
         //
     }
 
+    public function carta_organisasi()
+    {
+        return view('informasi.carta_organisasi');
+        //
+    }
     /**
      * Store a newly created resource in storage.
      */
