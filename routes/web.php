@@ -39,16 +39,18 @@ Route::get('/carta_organisasi', [InformasiController::class, 'carta_organisasi']
 
 Route::get('/berita_umum', [BeritaController::class, 'index'])->name('berita umum');
 
+Route::get('/search', [BeritaController::class, 'search'])->name('search.berita');
+
 Route::get('/create_berita', [BeritaController::class, 'create'])->name('create.berita');
 
 Route::post('/create_berita', [BeritaController::class, 'store'])->name('berita.store');
 
-Route::get('/details_berita/{id}', [BeritaController::class, 'show'])->name('details.berita');
+Route::get('/details_berita/{berita}', [BeritaController::class, 'show'])->name('details.berita');
 
-Route::get('/edit_berita/{id}', [BeritaController::class, 'edit'])->name('edit.berita');
+Route::get('/edit_berita/{berita}', [BeritaController::class, 'edit'])->name('edit.berita');
 
-Route::post('/update_berita/{id}', [BeritaController::class, 'update'])->name('update.berita');
+Route::put('/update_berita/{berita}', [BeritaController::class, 'update'])->name('update.berita');
 
-Route::get('/delete_berita/{id}', [BeritaController::class, 'destroy'])->name('delete.berita');
+Route::get('/delete_berita/{berita}', [BeritaController::class, 'destroy'])->name('delete.berita');
 
 require __DIR__.'/auth.php';
