@@ -1,5 +1,8 @@
 <?php
 
+
+use App\Http\Controllers\InformasiController;
+use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\InfaqController;
 use App\Http\Controllers\ProfileController;
@@ -49,11 +52,36 @@ Route::middleware('auth')->group(function () { //route untuk user yang sudah log
     Route::put('/Ekhairat/update/{membership}', [MembershipController::class, 'update'])->name('membership.update');
 });
 
+
+// Informasi
+Route::get('/visi_misi', [InformasiController::class, 'visi_misi'])->name('visi misi');
+
+Route::get('/carta_organisasi', [InformasiController::class, 'carta_organisasi'])->name('carta organisasi');
+
+// Berita Masjid
+
+Route::get('/berita_umum', [BeritaController::class, 'index'])->name('berita umum');
+
+Route::get('/search', [BeritaController::class, 'search'])->name('search.berita');
+
+Route::get('/create_berita', [BeritaController::class, 'create'])->name('create.berita');
+
+Route::post('/create_berita', [BeritaController::class, 'store'])->name('berita.store');
+
+Route::get('/details_berita/{berita}', [BeritaController::class, 'show'])->name('details.berita');
+
+Route::get('/edit_berita/{berita}', [BeritaController::class, 'edit'])->name('edit.berita');
+
+Route::put('/update_berita/{berita}', [BeritaController::class, 'update'])->name('update.berita');
+
+Route::get('/delete_berita/{berita}', [BeritaController::class, 'destroy'])->name('delete.berita');
+
 Route::get('/Ekhairat/Polisi', [MembershipController::class, 'info'])->name('membership.polisi');
 
 Route::get('/infaq', [InfaqController::class, 'derma'])->name('infaq.derma');
 Route::post('/infaq/bayar', [InfaqController::class, 'bayar'])->name('infaq.bayar');
 Route::get('/infaq/success', [InfaqController::class, 'success'])->name('infaq.success');
 Route::get('/infaq/cancel', [InfaqController::class, 'cancel'])->name('infaq.cancel');
+
 
 require __DIR__.'/auth.php';

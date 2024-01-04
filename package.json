@@ -17,6 +17,6 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "watch": "^1.0.2"
+        "tw-elements": "^1.1.0",
     }
 }
