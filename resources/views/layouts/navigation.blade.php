@@ -3,12 +3,12 @@
     @if (Route::has('login'))
         <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
             @auth
-                <a href="{{ url('/home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
+                <a href="{{ url('/home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
             @else
-                <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+                <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
 
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                    <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
                 @endif
             @endauth
         </div>
@@ -22,7 +22,7 @@
                 <!-- Logo -->
                 <div class="shrink-0">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('img/MTSP.png') }}" class="w-8 h-8 pt-4 mb-4" /> 
+                        <img src="{{ asset('img/MTSP.png') }}" class="block w-8 h-8 pt-4 mb-4" /> 
                     </a>
                 </div>
 
@@ -54,24 +54,22 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link>
+                            <x-dropdown-link :href="route('visi misi')">
                                 {{ __('Visi dan Misi') }}
                             </x-dropdown-link>
 
-                            <x-dropdown-link>
+                            <x-dropdown-link :href="route('carta organisasi')">
                                 {{ __('Carta Organisasi') }}
                             </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
                 </div>
 
-
-                <!-- Dropdown for Berita Masjid (tak siap) -->
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <x-dropdown align="left">
                         <x-slot name="trigger">
                             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                <div >{{ __('Berita Masjid') }}</div>
+                                <div>{{ __('Berita Masjid') }}</div>
 
                                 <div class="ml-1">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -82,8 +80,8 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link>
-                                {{ __('Berita Umum') }}
+                            <x-dropdown-link :href="route('berita umum')">
+                                {{ __('Berita umum') }}
                             </x-dropdown-link>
 
                             <x-dropdown-link :href="route('berita.aktiviti')">
@@ -93,7 +91,7 @@
                     </x-dropdown>
                 </div>
 
-                <x-nav-link>
+                <x-nav-link :href="route('infaq.derma')">
                     {{ __('Infaq') }}
                 </x-nav-link>
 
@@ -113,11 +111,8 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('membership.create')">
-                                {{ __('Daftar Keahlian') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link>
-                                {{ __('Semak Keahlian') }}
+                            <x-dropdown-link :href="route('membership.index')">
+                                {{ __('Keahlian') }}
                             </x-dropdown-link>
                             <x-dropdown-link>
                                 {{ __('Latar Belakang') }}
@@ -185,41 +180,5 @@
                 </button>
             </div>
         </div>
-    </div>
-
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        @auth
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div>
-        @endauth
     </div>
 </nav>
