@@ -7,54 +7,60 @@
     </x-slot>
 
     <div class="py-12">
-    <form action="{{ route('membership.confirmation') }}" method="post">
-        @csrf
-        @method('post')
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+        <form action="{{ route('membership.confirmation') }}" method="post">
+            @csrf
+            @method('post')
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="max-w-xl">
 
-                    <h2 class="text-lg font-medium text-gray-900">
+                        <h2 class="text-lg font-medium text-gray-900">
                             {{ __('Maklumat Ahli') }}
-                    </h2>
+                        </h2>
 
-                    <p class="mt-1 text-sm text-gray-600">
-                        {{ __("Sila masukkan maklumat peribadi anda") }}
-                    </p>
+                        <p class="mt-1 text-sm text-gray-600">
+                            {{ __('Sila masukkan maklumat peribadi anda') }}
+                        </p>
 
-                    <div class="mt-6 space-y-6">
+                        <div class="mt-6 space-y-6">
 
-                        <div>
-                            <x-input-label for="fullname" :value="__('Nama Penuh')" />
-                            <x-text-input id="fullname" class="block mt-1 w-full" type="text" name="fullname" :value="$ahli['fullname'] ?? old('fullname')" :required="true"/>
-                            <x-input-error class="mt-2" :messages="$errors->get('Nama Penuh')" />
-                        </div>
-                        <div>
-                            <x-input-label for="email" :value="__('Email')" />
-                            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="Auth::user()->email" :readonly="true" />
-                        </div>
-                        <div>
-                            <x-input-label for="ic" :value="__('NRIC')" />
-                            <x-text-input id="ic" class="block mt-1 w-full" type="text" name="ic" :value="$ahli['ic'] ?? old('ic')" :required="true" placeholder="XXXXXX-XX-XXXX"/>
-                            <x-input-error class="mt-2" :messages="$errors->get('ic')" />
-                        </div>
-                        <div>
-                            <x-input-label for="address" :value="__('Alamat')" />
-                            <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" :value="$ahli['address'] ?? old('address')" :required="true" />
-                            <x-input-error class="mt-2" :messages="$errors->get('address')" />
-                        </div>
-                        <div>
-                            <x-input-label for="phone" :value="__('No H/P')" />
-                            <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone" :value="$ahli['phone'] ?? old('phone')" :required="true" />
-                            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
-                        </div>
-                        <div>
-                            <x-input-label for="emergency_no" :value="__('No Kecemasan')" />
-                            <x-text-input id="emergency_no" class="block mt-1 w-full" type="tel" name="emergency_no" :value="$ahli['emergency_no'] ?? old('emergency_no')" :required="true" />
-                            <x-input-error class="mt-2" :messages="$errors->get('emergency_no')" />
+                            <div>
+                                <x-input-label for="fullname" :value="__('Nama Penuh')" />
+                                <x-text-input id="fullname" class="block mt-1 w-full" type="text" name="fullname"
+                                    :value="$ahli['fullname'] ?? old('fullname')" :required="true" />
+                                <x-input-error class="mt-2" :messages="$errors->get('Nama Penuh')" />
+                            </div>
+                            <div>
+                                <x-input-label for="email" :value="__('Email')" />
+                                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email"
+                                    :value="Auth::user()->email" :readonly="true" />
+                            </div>
+                            <div>
+                                <x-input-label for="ic" :value="__('NRIC')" />
+                                <x-text-input id="ic" class="block mt-1 w-full" type="text" name="ic"
+                                    :value="$ahli['ic'] ?? old('ic')" :required="true" placeholder="XXXXXX-XX-XXXX" />
+                                <x-input-error class="mt-2" :messages="$errors->get('ic')" />
+                            </div>
+                            <div>
+                                <x-input-label for="address" :value="__('Alamat')" />
+                                <x-text-input id="address" class="block mt-1 w-full" type="text" name="address"
+                                    :value="$ahli['address'] ?? old('address')" :required="true" />
+                                <x-input-error class="mt-2" :messages="$errors->get('address')" />
+                            </div>
+                            <div>
+                                <x-input-label for="phone" :value="__('No H/P')" />
+                                <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone"
+                                    :value="$ahli['phone'] ?? old('phone')" :required="true" />
+                                <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+                            </div>
+                            <div>
+                                <x-input-label for="emergency_no" :value="__('No Kecemasan')" />
+                                <x-text-input id="emergency_no" class="block mt-1 w-full" type="tel"
+                                    name="emergency_no" :value="$ahli['emergency_no'] ?? old('emergency_no')" :required="true" />
+                                <x-input-error class="mt-2" :messages="$errors->get('emergency_no')" />
+                            </div>
                         </div>
                     </div>
-                </div>
                 </div>
 
                 <div id="tanggungan-container">
@@ -68,16 +74,16 @@
                 <x-primary-button class="mt-4" type="submit">
                     {{ __('Submit') }}
                 </x-primary-button>
-        </div>
-        
+            </div>
+
         </form>
     </div>
-    
+
 
     @push('scripts')
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 let tanggunganIndex = 0;
 
                 function addTanggunganForm(tanggunganData) {
@@ -89,7 +95,7 @@
                                         Tanggungan ${tanggunganIndex + 1}:
                                     </h2>
                                     <p class="mt-1 text-sm text-gray-600">
-                                        {{ __("Sila masukkan maklumat peribadi tanggungan anda") }}
+                                        {{ __('Sila masukkan maklumat peribadi tanggungan anda') }}
                                     </p>
                                     
                                     <div class="mt-6 space-y-6">
@@ -126,29 +132,29 @@
                     tanggunganIndex++;
                 };
 
-                const existingTanggungans = <?= json_encode(old('tanggungans', []), JSON_HEX_TAG); ?>;
-                existingTanggungans.forEach(function (tanggunganData) {
+                const existingTanggungans = <?= json_encode(old('tanggungans', []), JSON_HEX_TAG) ?>;
+                existingTanggungans.forEach(function(tanggunganData) {
                     addTanggunganForm(tanggunganData);
                 });
 
-                $(document).on('click', '#add-tanggungan-btn', function () {
+                $(document).on('click', '#add-tanggungan-btn', function() {
                     addTanggunganForm();
                 });
 
-                $('#tanggungan-container').on('click', '.remove-tanggungan-btn', function () {
+                $('#tanggungan-container').on('click', '.remove-tanggungan-btn', function() {
                     const tanggunganId = $(this).data('tanggungan-id');
                     $(`#tanggungan-${tanggunganId}`).remove();
 
-                    $('.tanggungan-form').each(function (index) {
+                    $('.tanggungan-form').each(function(index) {
                         const newIndex = index;
                         $(this).attr('id', `tanggungan-${newIndex}`);
                         $(this).find('h2').text(`Tanggungan ${newIndex + 1}:`);
-                        $(this).find('label').each(function () {
+                        $(this).find('label').each(function() {
                             const oldName = $(this).attr('for');
                             const newName = oldName.replace(/\[(\d+)\]/, `[${newIndex}]`);
                             $(this).attr('for', newName);
                         });
-                        $(this).find('input').each(function () {
+                        $(this).find('input').each(function() {
                             const oldName = $(this).attr('name');
                             const newName = oldName.replace(/\[(\d+)\]/, `[${newIndex}]`);
                             $(this).attr('name', newName);
@@ -163,4 +169,3 @@
     @endpush
 
 </x-app-layout>
-
