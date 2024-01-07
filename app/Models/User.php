@@ -47,4 +47,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Membership::class);
     }
+
+    //try try, ni patutnya untuk admin
+    public function aktiviti()
+    {
+        return $this->hasMany(Aktiviti::class, 'user_id');
+    }
 }
