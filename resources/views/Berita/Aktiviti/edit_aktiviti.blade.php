@@ -17,7 +17,7 @@
     @endif
 
     <div class="py-12">
-        <form action="{{ route('berita.updateAktiviti', $aktiviti->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('aktiviti.update', $aktiviti->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -84,7 +84,7 @@
                     {{ __('Update Aktiviti') }}
                 </x-primary-button>
                 <x-secondary-button class="mt-8">
-                    <a href="{{ route('berita.aktiviti') }}">{{ __('Kembali') }}</a>
+                    <a href="{{ route('aktiviti.index') }}">{{ __('Kembali') }}</a>
                 </x-secondary-button>
 
             </div>
