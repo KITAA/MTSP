@@ -33,6 +33,7 @@ Route::get('/home' ,[HomeController::class, 'index'])->name('home');
 Route::middleware(['auth', 'admin'])->group(function(){//route untuk admin yang sudah login
     Route::get('/Ekhairat/Senarai', [MembershipController::class, 'index'])->name('membership.index');
     Route::get('/Ekhairat/Senarai/{membership}', [MembershipController::class, 'show'])->name('membership.semak');
+    Route::get('/Ekhairat/Search', [MembershipController::class, 'search'])->name('membership.search');
 
 });
 
@@ -50,6 +51,11 @@ Route::middleware('auth')->group(function () { //route untuk user yang sudah log
     Route::get('/Ekhairat/confirmation', [MembershipController::class, 'editConfirmation'])->name('membership.editConfirmation');
     Route::get('/Ekhairat/edit/{membership}', [MembershipController::class, 'edit'])->name('membership.edit');
     Route::put('/Ekhairat/update/{membership}', [MembershipController::class, 'update'])->name('membership.update');
+    Route::get('/Ekhairat/pelan', function(){
+        return view('E-khairat.pelanAhli');})->name('membership.pelan');
+    Route::post('/Ekhairat/Bayar', [MembershipController::class, 'bayar'])->name('membership.bayar');
+    Route::get('/Ekhairat/success', [MembershipController::class, 'success'])->name('membership.success');
+    Route::get('/Ekhairat/cancel', [MembershipController::class, 'cancel'])->name('membership.cancel');
 });
 
 

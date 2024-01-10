@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Membership;
 use App\Http\Requests\EKhairat\StoreMembershipRequest;
 use App\Http\Requests\EKhairat\UpdateMembershipRequest;
+use App\Models\Payment;
+use Illuminate\Http\Request;
 
 class MembershipController extends Controller
 {
@@ -61,6 +63,7 @@ class MembershipController extends Controller
             'membership' => $validated,
             'tanggungans' => $request->input('tanggungans', []),
         ]);
+        
     }
 
     public function editConfirmation()
@@ -87,40 +90,6 @@ class MembershipController extends Controller
             return redirect()->route('membership.index');
         }
         return view('E-khairat.daftar_ahli');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store()
-    {
-        $user = auth()->user();
-
-        $confirmationData = session('confirmation_data');
-
-        $ahliData = $confirmationData['membership'];
-        $tanggungansData = $confirmationData['tanggungans'];
-
-        $membership = $user->membership()->create([
-            'fullname' => $ahliData['fullname'],
-            'ic' => $ahliData['ic'],
-            'address' => $ahliData['address'],
-            'phone' => $ahliData['phone'],
-            'emergency_no' => $ahliData['emergency_no'],
-            'email' => $ahliData['email'],
-        ]);
-
-        foreach ($tanggungansData as $tanggunganData) {
-            $membership->tanggungan()->create([
-                'fullname' => $tanggunganData['fullname'],
-                'ic' => $tanggunganData['ic'],
-                'relationship' => $tanggunganData['relationship'],
-            ]);
-        }
-
-        session()->forget('confirmation_data');
-        
-        return view('dashboard');
     }
 
     /**
@@ -185,11 +154,128 @@ class MembershipController extends Controller
         return redirect()->route('membership.index');
     }
 
+    public function search(){
+        $search = $_GET['query'];
+        $membership = Membership::where('fullname', 'LIKE', '%'.$search.'%')
+        ->orWhere('ic', 'LIKE', '%'.$search.'%')
+        ->orWhere('email', 'LIKE', '%'.$search.'%')
+        ->get();
+
+        return view('admin.senarai_ahli', [
+            'memberships' => $membership,
+            'search' => $search,
+        ]);
+    }
+
+    public function bayar(Request $request){
+        $stripe = new \Stripe\StripeClient(config('stripe.stripe_sk'));
+
+        $response = $stripe->checkout->sessions->create([
+            'line_items' => [
+                [
+                'price_data' => [
+                    'currency' => 'myr',
+                    'product_data' => ['name' => $request->membership_type,],
+                    'unit_amount' => $request->price * 100,
+                ],
+                'quantity' => 1,
+                ],
+            ],
+            'mode' => 'payment',
+            'success_url' => route('membership.store').'?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('membership.cancel'),
+        ]);
+
+        if(isset($response->id) && ($response->id != null)){
+
+            session()->put('payment_data', [
+                'membership_type' => $request->membership_type,
+                'price' => $request->price,
+            ]);
+
+            return redirect($response->url);
+        }else{
+            return redirect()->route('cancel');
+        }
+
+    }
+
+    public function success(Payment $payment){
+
+            return view('E-khairat.success', [
+            'membership' => $payment,
+        ]);
+    }
+
+    public function cancel(){
+        return view('E-khairat.cancel');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        if(isset($request->session_id)){
+            
+            $user = auth()->user();
+
+            $confirmationData = session('confirmation_data');
+
+            $ahliData = $confirmationData['membership'];
+            $tanggungansData = $confirmationData['tanggungans'];
+
+            $membership = $user->membership()->create([
+                'fullname' => $ahliData['fullname'],
+                'ic' => $ahliData['ic'],
+                'address' => $ahliData['address'],
+                'phone' => $ahliData['phone'],
+                'emergency_no' => $ahliData['emergency_no'],
+                'email' => $ahliData['email'],
+            ]);
+
+            foreach ($tanggungansData as $tanggunganData) {
+                $membership->tanggungan()->create([
+                    'fullname' => $tanggunganData['fullname'],
+                    'ic' => $tanggunganData['ic'],
+                    'relationship' => $tanggunganData['relationship'],
+                ]);
+            }
+
+            session()->forget('confirmation_data');
+
+            $stripe = new \Stripe\StripeClient(config('stripe.stripe_sk'));
+            $response = $stripe->checkout->sessions->retrieve($request->session_id, []);
+
+            $paymentData = session('payment_data');
+
+            $payment = $membership->payment()->create([
+                'payment_id' => $response->id,
+                'membership_type' => $paymentData['membership_type'],
+                'status' => $response->payment_status,
+                'method' => "Stripe",
+                'price' => $paymentData['price'],
+                'currency' => $response->currency,
+                'name' => $response->customer_details->name,
+                'email' => $response->customer_details->email,
+            ]);
+
+            session()->forget('payment_data');
+        }
+
+        else{
+            return redirect()->route('cancel');
+        }
+        
+        
+        return redirect()->route('membership.success');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Membership $membership)
     {
-        //
+        return "payment is canceled";
     }
 }

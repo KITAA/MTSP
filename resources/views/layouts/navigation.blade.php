@@ -1,14 +1,15 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
     @if (Route::has('login'))
         <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
             @auth
-                <a href="{{ url('/home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
             @else
                 <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
 
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                    <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
                 @endif
             @endauth
         </div>
@@ -22,12 +23,12 @@
                 <!-- Logo -->
                 <div class="shrink-0">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('img/MTSP.png') }}" class="block w-8 h-8 pt-4 mb-4" /> 
+                        <img src="{{ asset('img/MTSP.png') }}" class="block w-auto h-auto pt-4 mb-4" /> 
                     </a>
                 </div>
 
                 <!-- Title -->
-                <div class="ml-2 font-black text-xl drop-shadow-lg">
+                <div class="ml-2 font-bold text-xl drop-shadow-lg">
                     MASJID TAMAN SRI PULAI
                 </div>
             </div>

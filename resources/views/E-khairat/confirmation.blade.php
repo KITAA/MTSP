@@ -66,7 +66,7 @@
                     </a>
 
                     <x-primary-button onclick="confirmSubmission()">
-                            Confirm and Pay
+                            Confirm
                         </x-primary-button>
                     </a>
                 </div>
@@ -80,7 +80,7 @@
             if (!checkbox.checked) {
                 alert('Sila tandakan kotak persetujuan sebelum menghantar borang.');
             } else {
-                window.location.href = "{{ route('membership.store') }}";
+                window.location.href = "{{ route('membership.pelan') }}";
                 }
             
         }
