@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 h-58">
 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
@@ -17,24 +17,24 @@
 
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col justify-center items-center h-24"> 
+        <div class="flex flex-col justify-center items-center"> 
             <!-- Logo and Title -->
             <div class="flex items-center justify-center">
                 <!-- Logo -->
                 <div class="shrink-0">
                     <a href="{{ route('home') }}">
-                        <img src="{{ asset('img/MTSP.png') }}" class="block w-auto h-auto pt-4 mb-4" /> 
+                        <img src="{{ asset('img/MTSP.png') }}" class="block w-28 h-auto pt-4 mb-4" /> 
                     </a>
                 </div>
 
                 <!-- Title -->
-                <div class="ml-2 font-bold text-xl drop-shadow-lg">
+                <div class="ml-2 font-bold text-xl drop-shadow-lg pt-6">
                     MASJID TAMAN SRI PULAI
                 </div>
             </div>
 
             <!-- Navigation Links -->
-            <div class="hidden space-x-8 sm:flex sm: justify-center sm:items-center"> 
+            <div class="hidden space-x-8 sm:flex sm: justify-center sm:items-center pb-3"> 
                 <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                     {{ __('Utama') }}
                 </x-nav-link>
@@ -43,7 +43,7 @@
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <x-dropdown align="left">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ __('Informasi') }}</div>
 
                                 <div class="ml-1">
@@ -69,7 +69,7 @@
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <x-dropdown align="left">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ __('Berita Masjid') }}</div>
 
                                 <div class="ml-1">
@@ -88,7 +88,7 @@
                     </x-dropdown>
                 </div>
 
-                <x-nav-link :href="route('infaq.derma')">
+                <x-nav-link :href="route('infaq.derma')" :active="request()->routeIs('infaq.derma')">
                     {{ __('Infaq') }}
                 </x-nav-link>
 
@@ -96,7 +96,7 @@
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <x-dropdown align="left">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 ">
                                 <div>{{ __('E-Khairat') }}</div>
 
                                 <div class="ml-1">
