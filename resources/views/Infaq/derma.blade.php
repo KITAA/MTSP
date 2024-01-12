@@ -12,7 +12,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div>
                     <x-input-label for="donationAmount" :value="__('Jumlah Infaq')" />
-                    <x-text-input id="donationAmount" class="block mt-1 w-full" type="currency" name="donationAmount" :required="true" />
+                    <x-text-input id="donationAmount" class="block mt-1 w-full" type="text" name="donationAmount" :required="true" />
                 </div>
                 <x-primary-button class="mt-4" type="submit">
                     {{ __('Infaq') }}

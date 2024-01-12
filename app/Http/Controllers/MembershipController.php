@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Membership;
 use App\Http\Requests\EKhairat\StoreMembershipRequest;
 use App\Http\Requests\EKhairat\UpdateMembershipRequest;
+use App\Models\Payment;
+use Illuminate\Http\Request;
 
 class MembershipController extends Controller
 {
@@ -13,7 +15,29 @@ class MembershipController extends Controller
      */
     public function index()
     {
-        //
+        $usertype = auth()->user()->usertype;
+
+        if($usertype == 'user'){
+            $user = auth()->user();
+
+            if (!$user->membership) {
+                return redirect()->route('membership.create');
+            }
+
+            $membership = $user->membership;
+
+            return view('E-khairat.semak_ahli', [
+                'membership' => $membership,
+            ]);
+        }
+
+        elseif($usertype == 'admin'){
+            $memberships = Membership::all();
+
+            return view('admin.senarai_ahli', [
+                'memberships' => $memberships,
+            ]);
+        }
     }
 
     public function info()
@@ -23,21 +47,23 @@ class MembershipController extends Controller
 
     public function confirmation(StoreMembershipRequest $request)
     {   
-        if (session()->has('confirmation_data')) {
+        if(session()->has('confirmation_data')){
             session()->forget('confirmation_data');
         }
-
+        
+        
         $validated = $request->validated();
 
         $request->session()->put('confirmation_data', [
-            'ahli' => $validated,
+            'membership' => $validated,
             'tanggungans' => $request->input('tanggungans', []),
         ]);
 
         return view('E-khairat.confirmation', [
-            'ahli' => $validated,
+            'membership' => $validated,
             'tanggungans' => $request->input('tanggungans', []),
         ]);
+        
     }
 
     public function editConfirmation()
@@ -49,7 +75,7 @@ class MembershipController extends Controller
         }
 
         return view('E-khairat.daftar_ahli', [
-            'ahli' => $confirmationData['ahli'],
+            'membership' => $confirmationData['membership'],
             'tanggungans' => $confirmationData['tanggungans'],
         ]);
     }
@@ -59,42 +85,11 @@ class MembershipController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {   
-        return view('E-khairat.daftar_ahli');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store()
-    {
-        $user = auth()->user();
-
-        $confirmationData = session('confirmation_data');
-
-        $ahliData = $confirmationData['ahli'];
-        $tanggungansData = $confirmationData['tanggungans'];
-
-        $membership = $user->membership()->create([
-            'fullname' => $ahliData['fullname'],
-            'ic' => $ahliData['ic'],
-            'address' => $ahliData['address'],
-            'phone' => $ahliData['phone'],
-            'emergency_no' => $ahliData['emergency_no'],
-            'email' => $ahliData['email'],
-        ]);
-
-        foreach ($tanggungansData as $tanggunganData) {
-            $membership->tanggungan()->create([
-                'fullname' => $tanggunganData['fullname'],
-                'ic' => $tanggunganData['ic'],
-                'relationship' => $tanggunganData['relationship'],
-            ]);
+    {   $user = auth()->user();
+        if ($user->membership) {
+            return redirect()->route('membership.index');
         }
-
-        session()->forget('confirmation_data');
-
-        return view('dashboard');
+        return view('E-khairat.daftar_ahli');
     }
 
     /**
@@ -102,7 +97,9 @@ class MembershipController extends Controller
      */
     public function show(Membership $membership)
     {
-        //
+        return view('E-khairat.semak_ahli', [
+            'membership' => $membership,
+        ]);
     }
 
     /**
@@ -110,7 +107,11 @@ class MembershipController extends Controller
      */
     public function edit(Membership $membership)
     {
-        //
+        $this->authorize('edit-membership', $membership);
+
+        return view('E-khairat.daftar_ahli', [
+            'membership' => $membership,
+        ]);
     }
 
     /**
@@ -118,7 +119,157 @@ class MembershipController extends Controller
      */
     public function update(UpdateMembershipRequest $request, Membership $membership)
     {
-        //
+        $validated = $request->validated();
+
+        $membership->update([
+            'fullname' => $validated['fullname'],
+            'ic' => $validated['ic'],
+            'address' => $validated['address'],
+            'phone' => $validated['phone'],
+            'emergency_no' => $validated['emergency_no'],
+        ]);
+        
+        $tanggungans = $request->input('tanggungans', []);
+        $existingTanggunganIds = [];
+
+        foreach ($tanggungans as $tanggungan) {
+            $tanggunganData = [
+                'fullname' => $tanggungan['fullname'],
+                'ic' => $tanggungan['ic'],
+                'relationship' => $tanggungan['relationship'],
+            ];
+
+            if (isset($tanggungan['id'])) {
+                $membership->tanggungan()->where('id', $tanggungan['id'])->update($tanggunganData);
+                $existingTanggunganIds[] = $tanggungan['id'];
+            } else {
+                $createdTanggungan = $membership->tanggungan()->create($tanggunganData);
+                $existingTanggunganIds[] = $createdTanggungan->id;
+            }
+    }
+
+    $membership->tanggungan()->whereNotIn('id', $existingTanggunganIds)->delete();
+
+
+        return redirect()->route('membership.index');
+    }
+
+    public function search(){
+        $search = $_GET['query'];
+        $membership = Membership::where('fullname', 'LIKE', '%'.$search.'%')
+        ->orWhere('ic', 'LIKE', '%'.$search.'%')
+        ->orWhere('email', 'LIKE', '%'.$search.'%')
+        ->get();
+
+        return view('admin.senarai_ahli', [
+            'memberships' => $membership,
+            'search' => $search,
+        ]);
+    }
+
+    public function bayar(Request $request){
+        $stripe = new \Stripe\StripeClient(config('stripe.stripe_sk'));
+
+        $response = $stripe->checkout->sessions->create([
+            'line_items' => [
+                [
+                'price_data' => [
+                    'currency' => 'myr',
+                    'product_data' => ['name' => $request->membership_type,],
+                    'unit_amount' => $request->price * 100,
+                ],
+                'quantity' => 1,
+                ],
+            ],
+            'mode' => 'payment',
+            'success_url' => route('membership.store').'?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('membership.cancel'),
+        ]);
+
+        if(isset($response->id) && ($response->id != null)){
+
+            session()->put('payment_data', [
+                'membership_type' => $request->membership_type,
+                'price' => $request->price,
+            ]);
+
+            return redirect($response->url);
+        }else{
+            return redirect()->route('cancel');
+        }
+
+    }
+
+    public function success(Payment $payment){
+
+            return view('E-khairat.success', [
+            'membership' => $payment,
+        ]);
+    }
+
+    public function cancel(){
+        return view('E-khairat.cancel');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        if(isset($request->session_id)){
+            
+            $user = auth()->user();
+
+            $confirmationData = session('confirmation_data');
+
+            $ahliData = $confirmationData['membership'];
+            $tanggungansData = $confirmationData['tanggungans'];
+
+            $membership = $user->membership()->create([
+                'fullname' => $ahliData['fullname'],
+                'ic' => $ahliData['ic'],
+                'address' => $ahliData['address'],
+                'phone' => $ahliData['phone'],
+                'emergency_no' => $ahliData['emergency_no'],
+                'email' => $ahliData['email'],
+            ]);
+
+            foreach ($tanggungansData as $tanggunganData) {
+                $membership->tanggungan()->create([
+                    'fullname' => $tanggunganData['fullname'],
+                    'ic' => $tanggunganData['ic'],
+                    'relationship' => $tanggunganData['relationship'],
+                ]);
+            }
+
+            session()->forget('confirmation_data');
+
+            $stripe = new \Stripe\StripeClient(config('stripe.stripe_sk'));
+            $response = $stripe->checkout->sessions->retrieve($request->session_id, []);
+
+            $paymentData = session('payment_data');
+
+            $payment = $membership->payment()->create([
+                'payment_id' => $response->id,
+                'membership_type' => $paymentData['membership_type'],
+                'status' => $response->payment_status,
+                'method' => "Stripe",
+                'price' => $paymentData['price'],
+                'currency' => $response->currency,
+                'name' => $response->customer_details->name,
+                'email' => $response->customer_details->email,
+            ]);
+
+            session()->forget('payment_data');
+            session()->put('payment', $payment);
+        }
+
+        else{
+            return redirect()->route('membership.cancel');
+        }
+        
+        
+        return redirect()->route('send.email');
     }
 
     /**
@@ -126,6 +277,6 @@ class MembershipController extends Controller
      */
     public function destroy(Membership $membership)
     {
-        //
+        return "payment is canceled";
     }
 }
