@@ -261,14 +261,15 @@ class MembershipController extends Controller
             ]);
 
             session()->forget('payment_data');
+            session()->put('payment', $payment);
         }
 
         else{
-            return redirect()->route('cancel');
+            return redirect()->route('membership.cancel');
         }
         
         
-        return redirect()->route('membership.success');
+        return redirect()->route('send.email');
     }
 
     /**
