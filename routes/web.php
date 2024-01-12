@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\InfaqController;
 use App\Http\Controllers\InformasiController;
+use App\Http\Controllers\MailController;
 
 
 /*
@@ -36,6 +37,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/Ekhairat/Senarai', [MembershipController::class, 'index'])->name('membership.index');
     Route::get('/Ekhairat/Senarai/{membership}', [MembershipController::class, 'show'])->name('membership.semak');
+    Route::get('/Ekhairat/Search', [MembershipController::class, 'search'])->name('membership.search');
 
     // Berita Umum Routes (Admin-only)
     Route::get('/create_berita', [BeritaController::class, 'create'])->name('create.berita');
@@ -67,16 +69,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/Ekhairat', [MembershipController::class, 'store'])->name('membership.store');
     Route::post('/Ekhairat/confirmation', [MembershipController::class, 'confirmation'])->name('membership.confirmation');
     Route::get('/Ekhairat/confirmation', [MembershipController::class, 'editConfirmation'])->name('membership.editConfirmation');
-
-    Route::get('/Ekhairat/Polisi', [MembershipController::class, 'info'])->name('membership.polisi');
     Route::get('/Ekhairat/edit/{membership}', [MembershipController::class, 'edit'])->name('membership.edit');
     Route::put('/Ekhairat/update/{membership}', [MembershipController::class, 'update'])->name('membership.update');
+    Route::get('/Ekhairat/pelan', function(){return view('E-khairat.pelanAhli');})->name('membership.pelan');
+    Route::post('/Ekhairat/Bayar', [MembershipController::class, 'bayar'])->name('membership.bayar');
+    Route::get('/Ekhairat/success', [MembershipController::class, 'success'])->name('membership.success');
+    Route::get('/Ekhairat/cancel', [MembershipController::class, 'cancel'])->name('membership.cancel');
+    Route::get('send-email', [MailController::class, 'sendEmail'])->name('send.email');
 
     // Infaq Routes (Logged-in User)
     Route::get('/infaq', [InfaqController::class, 'derma'])->name('infaq.derma');
     Route::post('/infaq/bayar', [InfaqController::class, 'bayar'])->name('infaq.bayar');
     Route::get('/infaq/success', [InfaqController::class, 'success'])->name('infaq.success');
     Route::get('/infaq/cancel', [InfaqController::class, 'cancel'])->name('infaq.cancel');
+
 });
 
 
