@@ -85,6 +85,10 @@
                             <x-dropdown-link :href="route('berita umum')">
                                 {{ __('Berita umum') }}
                             </x-dropdown-link>
+
+                            <x-dropdown-link :href="route('aktiviti.index')">
+                                {{ __('Aktiviti') }}
+                            </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
                 </div>

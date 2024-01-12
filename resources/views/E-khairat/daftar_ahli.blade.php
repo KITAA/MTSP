@@ -20,15 +20,15 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
 
-                    <h2 class="text-lg font-medium text-gray-900">
+                        <h2 class="text-lg font-medium text-gray-900">
                             {{ __('Maklumat Ahli') }}
-                    </h2>
+                        </h2>
 
-                    <p class="mt-1 text-sm text-gray-600">
-                        {{ __("Sila masukkan maklumat peribadi anda") }}
-                    </p>
+                        <p class="mt-1 text-sm text-gray-600">
+                            {{ __('Sila masukkan maklumat peribadi anda') }}
+                        </p>
 
-                    <div class="mt-6 space-y-6">
+                        <div class="mt-6 space-y-6">
 
                         <div>
                             <x-input-label for="fullname" :value="__('Nama Penuh')" />
@@ -79,16 +79,16 @@
                         {{ __('Hantar') }}
                     @endif
                 </x-primary-button>
-        </div>
-        
+            </div>
+
         </form>
     </div>
-    
+
 
     @push('scripts')
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 let tanggunganIndex = 0;
                 let existingTanggungans = <?= json_encode(old('tanggungans', []), JSON_HEX_TAG); ?>;
                 let membershipTanggungans = <?= json_encode($membership['tanggungan'] ?? $tanggungans ?? [], JSON_HEX_TAG); ?>;
@@ -103,7 +103,7 @@
                                         Tanggungan ${tanggunganIndex + 1}:
                                     </h2>
                                     <p class="mt-1 text-sm text-gray-600">
-                                        {{ __("Sila masukkan maklumat peribadi tanggungan anda") }}
+                                        {{ __('Sila masukkan maklumat peribadi tanggungan anda') }}
                                     </p>
                                     
                                     <div class="mt-6 space-y-6">
@@ -156,24 +156,24 @@
             });
 
 
-                $(document).on('click', '#add-tanggungan-btn', function () {
+                $(document).on('click', '#add-tanggungan-btn', function() {
                     addTanggunganForm();
                 });
 
-                $('#tanggungan-container').on('click', '.remove-tanggungan-btn', function () {
+                $('#tanggungan-container').on('click', '.remove-tanggungan-btn', function() {
                     const tanggunganId = $(this).data('tanggungan-id');
                     $(`#tanggungan-${tanggunganId}`).remove();
 
-                    $('.tanggungan-form').each(function (index) {
+                    $('.tanggungan-form').each(function(index) {
                         const newIndex = index;
                         $(this).attr('id', `tanggungan-${newIndex}`);
                         $(this).find('h2').text(`Tanggungan ${newIndex + 1}:`);
-                        $(this).find('label').each(function () {
+                        $(this).find('label').each(function() {
                             const oldName = $(this).attr('for');
                             const newName = oldName.replace(/\[(\d+)\]/, `[${newIndex}]`);
                             $(this).attr('for', newName);
                         });
-                        $(this).find('input').each(function () {
+                        $(this).find('input').each(function() {
                             const oldName = $(this).attr('name');
                             const newName = oldName.replace(/\[(\d+)\]/, `[${newIndex}]`);
                             $(this).attr('name', newName);
@@ -188,4 +188,3 @@
     @endpush
 
 </x-app-layout>
-
