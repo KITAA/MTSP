@@ -3,62 +3,81 @@
 namespace App\Http\Controllers;
 
 use App\Models\Infaq;
-use App\Models\InfaqStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class InfaqController extends Controller
 {
-    public function derma(Request $request)
+    public function derma()
     {
-        return view('Infaq.derma', [
-          'user' => $request->user(),
-      ]);
-    }
+      if(Auth::check())
+      {
+        $user = auth()->user();
+        $infaqHistory = Infaq::where('email', $user->email)->orderBy('created_at', 'desc')->get();
+        
+
+        if($infaqHistory)
+        {
+          return view('Infaq.derma', [
+            'infaqHistory' => $infaqHistory
+          ]);
+        }
+      }
+      
+      //dd($infaq);
+      return view('Infaq.derma');
+      }
 
     public function bayar(Request $request)
     {
       $stripe = new \Stripe\StripeClient(env('STRIPE_SK'));
 
-      $user = $request->user();
-
-      $infaq = Infaq::create([
-          'email' => $user->email,
-          'donationAmount' => $request->donationAmount,
-      ]);
+      if(Auth::check())
+      {
+        $user = auth()->user();
+        $email = $user->email;
+      }
+      else
+      {
+        $email = $request->email;
+      }
 
       $stripe->customers->create([
-        'email' => $infaq->email,
+        'email' => $email,
       ]);
 
       $session = $stripe->checkout->sessions->create([
-          'customer_email' => $infaq->email,
-          'line_items' => [
-            [
-              'price_data' => [
-                'currency' => 'MYR',
-                'product_data' => [
-                  'name' => "Infaq"],
-                'unit_amount' => $infaq->donationAmount*100,
-              ],
-              'quantity' => 1,
+        'customer_email' => $email,
+        'line_items' => [
+          [
+            'price_data' => [
+              'currency' => 'MYR',
+              'product_data' => [
+                'name' => "Infaq"],
+              'unit_amount' => $request->donationAmount*100,
             ],
+            'quantity' => 1,
           ],
-          'mode' => 'payment',
-          'success_url' => route('infaq.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
-          'cancel_url' => route('infaq.cancel', [], true),
+        ],
+        'mode' => 'payment',
+        'success_url' => route('infaq.success', [], true) . "?session_id={CHECKOUT_SESSION_ID}",
+        'cancel_url' => route('infaq.cancel', [], true),
       ]);
 
-      $infaqStatus = new InfaqStatus();
-      $infaqStatus->donationAmount = $infaq->donationAmount;
-      $infaqStatus->status = 'unpaid';
-      $infaqStatus->session_id = $session->id;
-      $infaqStatus->save();
+      $infaq = Infaq::create([
+        'email' => $email,
+        'donationAmount' => $request->donationAmount,
+        'status' => 'unpaid',
+        'session_id' => $session->id
+      ]);
+
+      $infaq->save();
 
       return redirect($session->url);
     }
 
-    public function success(Request $request)
+    public function success()
     {
       $stripe = new \Stripe\StripeClient(env('STRIPE_SK'));
       
@@ -68,10 +87,7 @@ class InfaqController extends Controller
             throw new NotFoundHttpException;
        }
 
-        $sstatus = InfaqStatus::where('session_id', $session->id)->first();
-        if (!$sstatus) {
-            throw new NotFoundHttpException();
-        }
+        $sstatus = Infaq::where('session_id', $session->id)->first();
         
         if ($sstatus && $sstatus->status == 'unpaid') {
             $sstatus->status = 'paid';
@@ -83,27 +99,6 @@ class InfaqController extends Controller
       } catch (\Exception $e) {
         throw new NotFoundHttpException();
       }
-
-      /* try {
-        $session = $stripe->checkout->sessions->retrieve($_GET['session_id']);
-        if (!$session) {
-            throw new NotFoundHttpException;
-        }
-        $customer = \Stripe\Customer::retrieve($session->customer);
-
-        $sstatus = InfaqStatus::where('session_id', $session->id)->first();
-        if (!$sstatus) {
-            throw new NotFoundHttpException();
-        }
-        if ($sstatus->status === 'unpaid') {
-            $sstatus->status = 'paid';
-            $sstatus->save();
-        }
-        return view('infaq.success', compact('customer'));
-
-      } catch (\Exception $e) {
-        throw new NotFoundHttpException();
-      } */
     }
 
     public function cancel()
@@ -137,7 +132,7 @@ class InfaqController extends Controller
         case 'payment_intent.succeeded':
           $session = $event->data->object;
 
-          $sstatus = InfaqStatus::where('session_id', $session->id)->first();
+          $sstatus = Infaq::where('session_id', $session->id)->first();
           if ($sstatus && $sstatus->status == 'unpaid') {
             $sstatus->status = 'paid';
             $sstatus->save();
