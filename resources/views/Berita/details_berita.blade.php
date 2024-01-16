@@ -5,43 +5,67 @@
         </h2>
     </x-slot>
 
-    <style>
-   /*      .flex-container {
-            display: grid;
-            gap: 50px;
-            max-width: 1200px;
-            /* Set your desired max width */
-            margin: 0 auto;
-            /* Center the container */
-            padding: 10px;
-        } */
 
-        /* .flex-item {
-            border: 1px solid rgba(0, 0, 0, 0.8);
-            max-width: 1000px;
-            margin: 0 auto;
-            overflow: hidden;
-            word-wrap: break-word;
-        } */
 
-        .flex-container h2 {
-            font-size: 30px;
-            text-align: center;
-        }
-    </style>
+    <div class="flex flex-1 justify-center min-h-screen py-12">
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="space-y-6">
-                                                     
-                            <div class="w-full overflow-hidden break-words p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                                <h2 class="text-xl font-bold text-blue-900">
-                                    {{ $berita->name }}
-                                </h2>
-                                <img src="{{ asset('images/' . $berita->image) }}" alt="" class="mt-4 w-full h-full object-cover">
-                                <p class="mt-4">{{ $berita->description }}</p>
-                            </div>                                                         
+
+        <div class="w-1/2 sm:px-6 lg:px-8 bg-white shadow  p-4 sm:p-8">
+            <div
+                class="flex flex-col  overflow-hidden break-words  p-4 sm:p-8">
+                <img src="{{ asset('images/' . $berita->image) }}" alt="" class="">
+                <h2 class="text-4xl font-light text-blue-900 mt-4">
+                    {{ $berita->name }}
+                </h2>
+                <p class="mt-4">
+                    {!! $berita->description !!}
+                </p>
+
             </div>
         </div>
+
+
+
+
+
+        <div class="flex flex-col">
+            <div class="w-full px-4 mb-4">
+                <div class=" p-7 sm:p-8 bg-white shadow border ">
+
+                    <form method="get" action="{{ route('search.berita') }}">
+                        <div class="flex items-center justify-center">
+                            <input type="search" name="query" placeholder="Search...                "
+                                class="w-full border border-solid border-gray-300 rounded-md py-2 px-3"
+                                value="{{ $search_text ?? '' }}">
+
+                            <button type="submit" class=" ml-2 bg-blue-500 text-white py-2 px-4 rounded-md">
+
+                                Search
+
+                            </button>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+            <div class="w-full px-4 mb-4">
+                <div class=" p-7 sm:p-8 bg-white shadow border ">
+
+                    <form method="get" action="{{ route('search.berita') }}">
+                        <div class="flex items-center ">
+                            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                                {{ __('Kategori') }}
+                            </h2>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 </x-app-layout>

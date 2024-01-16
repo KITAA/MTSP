@@ -4,7 +4,7 @@ namespace App\Providers;
 use App\Models\Membership;
 use App\Policies\MembershipPolicy;
 
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -25,4 +25,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         //
     }
+
+ 
 }

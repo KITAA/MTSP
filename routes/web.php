@@ -28,9 +28,9 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard'); */
 
-Route::get('/home' ,[HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::middleware(['auth', 'admin'])->group(function(){//route untuk admin yang sudah login
+Route::middleware(['auth', 'admin'])->group(function () { //route untuk admin yang sudah login
     Route::get('/Ekhairat/Senarai', [MembershipController::class, 'index'])->name('membership.index');
     Route::get('/Ekhairat/Senarai/{membership}', [MembershipController::class, 'show'])->name('membership.semak');
 
@@ -50,6 +50,12 @@ Route::middleware('auth')->group(function () { //route untuk user yang sudah log
     Route::get('/Ekhairat/confirmation', [MembershipController::class, 'editConfirmation'])->name('membership.editConfirmation');
     Route::get('/Ekhairat/edit/{membership}', [MembershipController::class, 'edit'])->name('membership.edit');
     Route::put('/Ekhairat/update/{membership}', [MembershipController::class, 'update'])->name('membership.update');
+
+    Route::get('/create_berita', [BeritaController::class, 'create'])->name('create.berita');
+    Route::post('/create_berita', [BeritaController::class, 'store'])->name('berita.store');
+    Route::get('/edit_berita/{berita}', [BeritaController::class, 'edit'])->name('edit.berita');
+    Route::put('/update_berita/{berita}', [BeritaController::class, 'update'])->name('update.berita');
+    Route::get('/delete_berita/{berita}', [BeritaController::class, 'destroy'])->name('delete.berita');
 });
 
 
@@ -64,17 +70,7 @@ Route::get('/berita_umum', [BeritaController::class, 'index'])->name('berita umu
 
 Route::get('/search', [BeritaController::class, 'search'])->name('search.berita');
 
-Route::get('/create_berita', [BeritaController::class, 'create'])->name('create.berita');
-
-Route::post('/create_berita', [BeritaController::class, 'store'])->name('berita.store');
-
 Route::get('/details_berita/{berita}', [BeritaController::class, 'show'])->name('details.berita');
-
-Route::get('/edit_berita/{berita}', [BeritaController::class, 'edit'])->name('edit.berita');
-
-Route::put('/update_berita/{berita}', [BeritaController::class, 'update'])->name('update.berita');
-
-Route::get('/delete_berita/{berita}', [BeritaController::class, 'destroy'])->name('delete.berita');
 
 Route::get('/Ekhairat/Polisi', [MembershipController::class, 'info'])->name('membership.polisi');
 
@@ -84,4 +80,4 @@ Route::get('/infaq/success', [InfaqController::class, 'success'])->name('infaq.s
 Route::get('/infaq/cancel', [InfaqController::class, 'cancel'])->name('infaq.cancel');
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
