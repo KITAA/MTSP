@@ -112,4 +112,7 @@ Route::get('/infaq/success', [InfaqController::class, 'success'])->name('infaq.s
 Route::get('/infaq/cancel', [InfaqController::class, 'cancel'])->name('infaq.cancel');
 Route::post('/webhook', [InfaqController::class, 'webhook'])->name('infaq.webhook');
 
+// Hubungi Kami Routes (Public)
+Route::get('/hubungi_kami', [HomeController::class, 'contact'])->name('hubungi.kami');
+
 require __DIR__ . '/auth.php';
