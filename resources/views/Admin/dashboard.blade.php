@@ -65,6 +65,7 @@
                 <div class="flex items-center">
                     <div class="mt-10">
                         <table class="w-2/5 mx-4 bg-white shadow overflow-hidden sm:rounded-lg divide-y divide-gray-200">
+                            <caption class="font-medium uppercase tracking-wider bg-white shadow  rounded-full py-2 mb-2">Ahli Terkini</caption>
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ahli E-Khairat</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -97,14 +98,15 @@
                 <div>
                     <div class="mt-10">
                         <table class="w-2/5 mx-4 bg-white shadow overflow-hidden sm:rounded-lg divide-y divide-gray-200">
+                            <caption class="font-medium uppercase tracking-wider bg-white shadow  rounded-full py-2 mb-2"">Infaq Terkini</caption>
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Penderma</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Infaq</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             </tr>
                             <tbody class="divide-y divide-gray-200">
                                 @foreach ($infaq as $infaq)
                                     <tr class="bg-white">
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $infaq['donationAmount'] }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">RM {{ $infaq['donationAmount'] }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             @if ($infaq['status'] === 'paid')
                                                 <span class="bg-green-500 text-white px-11 py-1 rounded">Paid</span>
