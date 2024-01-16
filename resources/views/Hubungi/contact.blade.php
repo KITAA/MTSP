@@ -21,36 +21,32 @@
 
 
                         <div class="m-6 space-y-6  w-full">
-                            <form action="" method="">
+                            <form action="{{ route('contact.submit') }}" method="get">
+                                @csrf
+                                @method('get') {{-- Method Spoofing for POST request --}}
+                                
                                 <div>
-                                    <x-input-label for="fullname" :value="__('Nama')" />
-                                    <x-text-input id="fullname" class="block mt-2 mb-2 w-full" type="text"
-                                        name="fullname" :value="old('fullname') ?? ($membership['fullname'] ?? '')" :required="true" />
-                                    <x-input-error class="mt-2" :messages="$errors->get('fullname')" />
+                                    <x-input-label for="name" :value="__('Nama')" />
+                                    <x-text-input id="name" class="block mt-2 mb-2 w-full" type="text" name="name" :required="true" />
                                 </div>
-
+                                
                                 <div>
                                     <x-input-label for="email" :value="__('Email')" />
-                                    <x-text-input id="email" class="block mt-2 mb-2  w-full" type="email"
-                                        name="email" :value="Auth::user()->email" :readonly="true" />
+                                    <x-text-input id="email" class="block mt-2 mb-2 w-full" type="email" name="email" :value="Auth::user()->email" {{-- :readonly="true" --}} />
                                 </div>
+                                
                                 <div>
                                     <x-input-label for="message" :value="__('Mesej')" />
-                                    <textarea id="message" rows="4"
-                                        class="mt-2 mb-2 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border
-                                         border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 
-                                         dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
-                                         dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="Tulis mesej di sini..." style="min-height: 150px;" ></textarea>
+                                    <textarea id="message" name="message" rows="4" class="mt-2 mb-2 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tulis mesej di sini..." style="min-height: 150px;"></textarea>
                                 </div>
-
+                                
                                 <div class="mt-4">
-                                    <button type="submit"
-                                        class="inline-flex items-center justify-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600 active:bg-blue-800 focus:outline-none focus:border-blue-800 focus:ring focus:ring-blue-200 disabled:opacity-25 transition w-full">
+                                    <button type="submit" class="inline-flex items-center justify-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600 active:bg-blue-800 focus:outline-none focus:border-blue-800 focus:ring focus:ring-blue-200 disabled:opacity-25 transition w-full">
                                         {{ __('Hantar') }}
                                     </button>
                                 </div>
                             </form>
+                            
                         </div>
                         </form>
                     </div>
@@ -62,3 +58,17 @@
 
     </x-slot>
 </x-app-layout>
+
+{{-- @component('mail::message')
+# Contact Form Submission
+
+You've received a new contact form submission:
+
+**Name:** {{ $data['fullname'] }}
+**Email:** {{ $data['email'] }}
+**Message:**
+{{ $data['message'] }}
+
+Thank you,
+Your Website
+@endcomponent --}}
