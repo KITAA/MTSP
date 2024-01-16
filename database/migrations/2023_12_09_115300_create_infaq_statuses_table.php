@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('berita_umum', function (Blueprint $table) {
+        Schema::create('infaq_statuses', function (Blueprint $table) {
             $table->id();
-            $table->String('name');
-            $table->longText('description');
-            $table->mediumText('image')->nullable();
+            $table->decimal('donationAmount', 6, 2);
+            $table->string('status');
+            $table->string('session_id');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('berita_umum');
+        Schema::dropIfExists('infaq_statuses');
     }
 };

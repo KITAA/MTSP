@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use App\Models\Membership;
-use App\Notifications\DaftarAhliNotification;
 
 class HomeController extends Controller
 {
@@ -30,5 +27,10 @@ class HomeController extends Controller
             // The user is a guest
             return view('dashboard');
         }
-    }    
+    }
+    
+    public function contact()
+    {
+        return view('layouts.contact');
+    }
 }
