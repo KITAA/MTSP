@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Berita;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,22 +22,9 @@ class StoreBeritaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the image validation rules as needed
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-        ];
-    }
-
-
-    public function messages(): array
-    {
-        return [
-            'image.required' => 'Sila muat naik imej',
-            'name.required' => 'Sila isi nama berita',
-            'description.required' => 'Sila isi penerangan berita',
-            'image.image' => 'Fail yang dimuat naik perlu berbentuk imej (jpeg, png, jpg, gif)',
-            'image.mimes' => 'Format imej tidak sah. Sila gunakan format jpeg, png, jpg, gif',
-            'image.max' => 'Saiz imej mesti kurang daripada 2048KB',
         ];
     }
 }

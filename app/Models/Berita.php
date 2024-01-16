@@ -10,6 +10,4 @@ class Berita extends Model
     use HasFactory;
    protected $table = 'berita_umum';
    protected $fillable = ['name', 'description', 'image'];
-
-   public $timestamps = true;
 }
