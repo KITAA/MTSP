@@ -109,8 +109,6 @@
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             @if ($infaq['status'] === 'paid')
                                                 <span class="bg-green-500 text-white px-11 py-1 rounded">Paid</span>
-                                            @elseif ($infaq['status'] === 'unpaid')
-                                                <span class="bg-red-500 text-white px-11 py-1 rounded">Unpaid</span>
                                             @endif
                                         </td>
                                     </tr>
