@@ -33,7 +33,7 @@
                                 Tanggungan {{ $index + 1 }}
                             </h2>
                             <p><strong>Nama Penuh:</strong> {{ $tanggungan['fullname'] }}</p>
-                            <p><strong>IC:</strong> {{ $tanggungan['ic'] }}</p>
+                            <p><strong>NRIC:</strong> {{ $tanggungan['ic'] }}</p>
                             <p><strong>Hubungan:</strong> {{ $tanggungan['relationship'] }}</p>
                         </div>
                     @endforeach
