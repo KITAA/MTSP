@@ -32,7 +32,7 @@
                                 
                                 <div>
                                     <x-input-label for="email" :value="__('Email')" />
-                                    <x-text-input id="email" class="block mt-2 mb-2 w-full" type="email" name="email" :value="Auth::user()->email" {{-- :readonly="true" --}} />
+                                    <x-text-input id="email" class="block mt-2 mb-2 w-full" type="email" name="email" :value="optional(Auth::user())->email" />
                                 </div>
                                 
                                 <div>
