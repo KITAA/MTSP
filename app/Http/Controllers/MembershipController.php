@@ -6,6 +6,9 @@ use App\Models\Membership;
 use App\Http\Requests\EKhairat\StoreMembershipRequest;
 use App\Http\Requests\EKhairat\UpdateMembershipRequest;
 use App\Models\Payment;
+use App\Notifications\DaftarAhliNotification;
+use App\Models\User;
+use App\Notifications\StatusAhliNotification;
 use Illuminate\Http\Request;
 
 class MembershipController extends Controller
@@ -47,10 +50,6 @@ class MembershipController extends Controller
 
     public function confirmation(StoreMembershipRequest $request)
     {   
-        if(session()->has('confirmation_data')){
-            session()->forget('confirmation_data');
-        }
-        
         
         $validated = $request->validated();
 
@@ -170,6 +169,10 @@ class MembershipController extends Controller
     public function bayar(Request $request){
         $stripe = new \Stripe\StripeClient(config('stripe.stripe_sk'));
 
+        $userHasMembership = auth()->user()->membership;
+
+        $successRoute = $userHasMembership ? 'membership.renew' : 'membership.store';
+
         $response = $stripe->checkout->sessions->create([
             'line_items' => [
                 [
@@ -182,7 +185,7 @@ class MembershipController extends Controller
                 ],
             ],
             'mode' => 'payment',
-            'success_url' => route('membership.store').'?session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => route($successRoute).'?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('membership.cancel'),
         ]);
 
@@ -219,8 +222,19 @@ class MembershipController extends Controller
         if(isset($request->session_id)){
             
             $user = auth()->user();
+            $stripe = new \Stripe\StripeClient(config('stripe.stripe_sk'));
+            $response = $stripe->checkout->sessions->retrieve($request->session_id, []);
 
+            $paymentData = session('payment_data');
             $confirmationData = session('confirmation_data');
+
+            if($paymentData['membership_type'] == 'Bulanan'){
+                $membershipDuration = 1;
+            }
+            elseif($paymentData['membership_type'] == 'Tahunan'){
+                $membershipDuration = 12;
+            }
+
 
             $ahliData = $confirmationData['membership'];
             $tanggungansData = $confirmationData['tanggungans'];
@@ -232,6 +246,7 @@ class MembershipController extends Controller
                 'phone' => $ahliData['phone'],
                 'emergency_no' => $ahliData['emergency_no'],
                 'email' => $ahliData['email'],
+                'membershipDuration' => $membershipDuration,
             ]);
 
             foreach ($tanggungansData as $tanggunganData) {
@@ -243,11 +258,6 @@ class MembershipController extends Controller
             }
 
             session()->forget('confirmation_data');
-
-            $stripe = new \Stripe\StripeClient(config('stripe.stripe_sk'));
-            $response = $stripe->checkout->sessions->retrieve($request->session_id, []);
-
-            $paymentData = session('payment_data');
 
             $payment = $membership->payment()->create([
                 'payment_id' => $response->id,
@@ -262,6 +272,13 @@ class MembershipController extends Controller
 
             session()->forget('payment_data');
             session()->put('payment', $payment);
+            
+            $admins = User::where('usertype', 'admin')->get();
+            $admins->each(function ($admin) use ($membership) {
+                $admin->notify(new DaftarAhliNotification($membership));
+            });
+            
+            
         }
 
         else{
@@ -278,5 +295,70 @@ class MembershipController extends Controller
     public function destroy(Membership $membership)
     {
         return "payment is canceled";
+    }
+
+    public function Approve(Membership $membership){
+        $membership->update([
+            'status' => 'Aktif',
+        ]);
+
+        $title = 'Keahlian telah Aktif';
+        $message = 'Pendaftaran anda telah diluluskan.';
+
+        User::where('id', $membership->user_id)->first()->notify(new StatusAhliNotification($title, $message));
+
+        return redirect()->route('membership.index');
+    }
+
+    public function Reject(Membership $membership){
+
+        $reason = $_POST['reject_reason'];
+        $title = 'Maklumat Pendaftaran perlu Dibaiki';
+        $message = $reason;
+
+        User::where('id', $membership->user_id)->first()->notify(new StatusAhliNotification($title, $message));
+        return redirect()->route('membership.index');
+    }
+
+    public function renew(Request $request){
+        if(isset($request->session_id)){
+            $user = auth()->user();
+            $membership = $user->membership;
+            $stripe = new \Stripe\StripeClient(config('stripe.stripe_sk'));
+            $response = $stripe->checkout->sessions->retrieve($request->session_id, []);
+            $paymentData = session('payment_data');
+
+            if($paymentData['membership_type'] == 'Bulanan'){
+                $membershipDuration = 1;
+            }
+            elseif($paymentData['membership_type'] == 'Tahunan'){
+                $membershipDuration = 12;
+            }
+
+            $membership->update([
+                'membershipDuration' => $membershipDuration,
+                'status' => 'Aktif',
+            ]);
+
+            $payment = $membership->payment()->create([
+                'payment_id' => $response->id,
+                'membership_type' => $paymentData['membership_type'],
+                'status' => $response->payment_status,
+                'method' => "Stripe",
+                'price' => $paymentData['price'],
+                'currency' => $response->currency,
+                'name' => $response->customer_details->name,
+                'email' => $response->customer_details->email,
+            ]);
+
+            session()->put('payment', $payment);
+            session()->forget('payment_data');
+        }
+
+        else{
+            return redirect()->route('membership.cancel');
+        }
+
+        return redirect()->route('send.email');
     }
 }
