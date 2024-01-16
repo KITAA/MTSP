@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Infaq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Membership;
+use App\Models\Payment;
 
 class HomeController extends Controller
 {
@@ -13,7 +17,14 @@ class HomeController extends Controller
             $usertype = Auth::user()->usertype;
 
             if ($usertype == 'admin') {
-                return view('admin.dashboard');
+                $totalUser=User::all()->count();
+                $totalMembership=Membership::all()->count();
+                $totalMoney=Payment::all()->sum('price');
+                $totalInfaq=Infaq::all()->sum('donationAmount');
+                $membership=Membership::where('status', 'Dalam proses')->get();
+                $infaq = Infaq::all();
+                
+                return view('admin.dashboard', compact('totalUser', 'totalMembership', 'totalMoney', 'totalInfaq', 'membership', 'infaq'));
             } 
             
             elseif ($usertype == 'user') {
@@ -27,10 +38,5 @@ class HomeController extends Controller
             // The user is a guest
             return view('dashboard');
         }
-    }
-    
-    public function contact()
-    {
-        return view('layouts.contact');
-    }
+    }    
 }
