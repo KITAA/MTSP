@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+
 use App\Models\Membership;
 use App\Policies\MembershipPolicy;
 
@@ -23,8 +24,14 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
+        $this->defineGates();
     }
 
- 
+    public function defineGates()
+    {
+        Gate::define('admin', function ($user) {
+            return $user->usertype === 'admin';
+        });
+    }
 }

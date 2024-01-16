@@ -130,6 +130,7 @@ class BeritaController extends Controller
 
     }
 
+
     /**
      * Update the specified resource in storage.
      */
@@ -163,7 +164,9 @@ class BeritaController extends Controller
             'description' => 'required'
         ]);
 
+
         $input = $request->all();
+
 
         if ($image = $request->file('image')) {
             $destinationPath = 'images/';
@@ -174,11 +177,14 @@ class BeritaController extends Controller
             unset($input['image']);
         }
 
+
         $berita->update($input);
+
 
         return redirect('berita_umum')
             ->with('success', 'Product updated successfully');
     }
+
 
 
     /**
