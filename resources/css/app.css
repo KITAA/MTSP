@@ -4,9 +4,8 @@
 
 input[type="text"]:focus ~ .input-text,
 input[type="text"]:not(:placeholder-shown) ~ .input-text{
-  @apply text-gray-500 bg-white transform -translate-y-10 -translate-x-2 scale-75;
+  @apply text-blue-500 transform -translate-y-10 -translate-x-2 scale-75;
 }
-
 .hover\:scale-105:hover {
   transform: scale(1.3);
   font-weight: bold;

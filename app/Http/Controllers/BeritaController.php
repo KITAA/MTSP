@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreBeritaRequest;
-use App\Http\Requests\UpdateBeritaRequest;
+use App\Http\Requests\Berita\StoreBeritaRequest;
+
 
 class BeritaController extends Controller
 {
@@ -14,42 +14,25 @@ class BeritaController extends Controller
      */
     public function index()
     {
-        $berita = berita::all();
-
-        // return view('Berita.berita_umum',[
-        //  'berita' => $berita, ]);
-
         $berita = Berita::orderBy('created_at', 'ASC')->get();
-
-
         return view('Berita.berita_umum', compact('berita'));
     }
 
-    public function search(Request $request)
+    public function search(Berita $berita)
     {
-        $search_text = $_GET['query']; // Get the 'query' parameter from the request, default to an empty string if not present
+         $search_text = isset($_GET['query']) ? $_GET['query'] : '';
+
         $berita = Berita::where('name', 'LIKE', '%' . $search_text . '%')
-            ->orWhere('description', 'LIKE', '%' . $search_text . '%')
+            ->orWhere(function ($query) use ($search_text) {
+                $query->where('description', 'LIKE', '%' . $search_text . '%')
+                    ->orWhereRaw('description LIKE ?', ['%' . $search_text . '%']);
+            })
             ->get();
-        return view('Berita.berita_umum', compact('berita'));
 
-        /*  $search = $request->search;
+        return view('Berita.berita_umum', compact('berita', 'search_text')); 
 
-        $berita = Berita::where(function($query) use($search){
-
-            $query->where('name', 'LIKE', "%$search%")
-            ->orWhere('description', 'LIKE', "%$search%");
-        })
-        ->get();
-
-        return view('Berita.details_berita', compact('berita', 'search')); */
+      
     }
-
-    public function beritaMasjid()
-    {
-        return view('Berita.berita_masjid');
-    }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -62,51 +45,89 @@ class BeritaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBeritaRequest $request, Berita $berita)
     {
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
 
-        $input = $request->all();
+
+
+        $validated = $request->validated();
+
+
 
         if ($image = $request->file('image')) {
             $destinationPath = 'images/';
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
-            $input['image'] = "$profileImage";
+            $validated['image'] = $profileImage;
+
         }
 
-        Berita::create($input);
+
+
+        $berita = Berita::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'image' => $validated['image'],
+
+        ]);
+
 
         return redirect()->route('berita umum')
             ->with('success', 'Product created successfully.');
     }
 
 
+
+
+
+
+
     /**
      * Display the specified resource.
      */
+    /* public function show(Berita $berita)
+    {
+        $previousBerita = Berita::where('id', '<', $berita->id)->orderByDesc('id')->first();
+        $nextBerita = Berita::where('id', '>', $berita->id)->orderBy('id')->first();
+
+        return view('Berita.details_berita', compact('berita', 'previousBerita', 'nextBerita'));
+    } */
+
     public function show(Berita $berita)
     {
-        /*   $berita = Berita::find($id);
-        return view('Berita.details_berita', compact('berita')); */
+        $berita = Berita::find($berita->id);
+        $previousBerita = Berita::where('id', '<', $berita->id)->orderByDesc('id')->first();
+        $nextBerita = Berita::where('id', '>', $berita->id)->orderBy('id')->first();
 
-        return view('Berita.details_berita', compact('berita'));
+        return view('Berita.details_berita', compact('berita', 'previousBerita', 'nextBerita'));
     }
 
+    /* public function next(Berita $berita)
+    {
+        $nextBerita = Berita::where('id', '>', $berita->id)->orderBy('id')->first();
+
+        return redirect()->route('details.berita', $nextBerita->id);
+    }
+
+    public function previous(Berita $berita)
+    {
+        $previousBerita = Berita::where('id', '<', $berita->id)->orderByDesc('id')->first();
+
+        return redirect()->route('details.berita', $previousBerita->id);
+    } */
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Berita $berita)
     {
+
         /*  $berita = Berita::find($id);
-        return view('Berita.edit_berita', compact('berita')); */
+         return view('Berita.edit_berita', compact('berita')); */
 
         return view('Berita.edit_berita', compact('berita'));
+
+
     }
 
 
@@ -117,33 +138,35 @@ class BeritaController extends Controller
     public function update(Request $request, Berita $berita)
     {
         /*    
-        $berita = Berita::find($id);
-        $berita->name = $request->input('name');
-        $berita->description = $request->input('description');
+           $berita = Berita::find($id);
+           $berita->name = $request->input('name');
+           $berita->description = $request->input('description');
 
-        if($request->hasfile('image')) {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $file->move('images/', $filename);
-            $berita->image = $filename;
+           if($request->hasfile('image')) {
+               $file = $request->file('image');
+               $extension = $file->getClientOriginalExtension();
+               $filename = time() . '.' . $extension;
+               $file->move('images/', $filename);
+               $berita->image = $filename;
 
-         } else {
-        return $request;
-        $berita->image = '';
-    }
+            } else {
+           return $request;
+           $berita->image = '';
+       }
 
-        $berita->save(); 
+           $berita->save(); 
 
-      
-        return redirect('berita_umum'); */
+         
+           return redirect('berita_umum'); */
 
         $request->validate([
             'name' => 'required',
             'description' => 'required'
         ]);
 
+
         $input = $request->all();
+
 
         if ($image = $request->file('image')) {
             $destinationPath = 'images/';
@@ -154,11 +177,14 @@ class BeritaController extends Controller
             unset($input['image']);
         }
 
+
         $berita->update($input);
+
 
         return redirect('berita_umum')
             ->with('success', 'Product updated successfully');
     }
+
 
 
     /**
@@ -166,6 +192,7 @@ class BeritaController extends Controller
      */
     public function destroy(Berita $berita)
     {
+
         // Check if the Berita is found
         if (!$berita) {
             abort(404); // You can customize this to your specific needs

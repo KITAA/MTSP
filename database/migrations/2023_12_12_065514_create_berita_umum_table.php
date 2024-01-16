@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('berita_umum', function (Blueprint $table) {
             $table->id();
             $table->String('name');
-            $table->text('description');
+            $table->longText('description');
             $table->mediumText('image')->nullable();
             $table->timestamps();
         });
