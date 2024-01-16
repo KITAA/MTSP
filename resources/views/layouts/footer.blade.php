@@ -111,7 +111,7 @@
                             <a href="{{ route('membership.index') }}" class="text-neutral-800 dark:text-neutral-200">Keahlian</a>
                         </p>
                         <p class="mb-2">
-                            <a href="#!" class="text-neutral-800 dark:text-neutral-200">Latar Belakang</a>
+                            <a href="{{ route('membership.latarBelakang') }}" class="text-neutral-800 dark:text-neutral-200">Latar Belakang</a>
                         </p>
                         <p class="mb-2">
                             <a href="{{ route('membership.polisi') }}" class="text-neutral-800 dark:text-neutral-200">Polisi dan Prosedur</a>
