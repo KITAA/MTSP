@@ -1,5 +1,5 @@
 <x-app-layout>
-    <title>Payment Canceled</title>
+    <title>Pembayaran Dibatalkan</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <div class="container mx-auto p-12">
         <div class="bg-white rounded-lg shadow p-6 md:p-12 text-center">
@@ -9,7 +9,7 @@
             <h2 class="text-2xl mb-4 font-bold text-gray-800">Pembayaran dibatalkan</h2>
             <p class="text-gray-600 mb-8">Your payment was not completed. If you encountered an issue, please try again.</p>
             <a href="{{ route('membership.create') }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                Return to Membership
+                Daftar Semula
             </a>
         </div>
     </div>

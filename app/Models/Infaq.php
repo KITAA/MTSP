@@ -9,5 +9,6 @@ class Infaq extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['email','donationAmount'];
+    protected $fillable = [ 'email', 'donationAmount', 'status', 'session_id'];
 }
+

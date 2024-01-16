@@ -3,9 +3,38 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
     @if (Route::has('login'))
-        <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-            @auth
-                <x-zondicon-notification class="w-6 h-6 text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500" />
+    <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
+    @auth
+    <div id="notification-icon" class="cursor-pointer">
+        <x-zondicon-notification class="w-6 h-6 text-gray-600 hover:text-blue-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500" />
+    </div>
+    @if(auth()->user()->unreadNotifications->count() > 0)
+        <div class="absolute top-5 right-3 bg-red-500 text-white rounded-full px-2 text-xs font-bold">{{ auth()->user()->unreadNotifications->count() }}</div>
+    @endif
+    <div id="notification-container" class="hidden fixed top-15 right-5 pr-6 pb-6 pl-6 text-gray-900 bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-lg">
+        @if(auth()->user()->notifications->count() > 0)
+        @foreach(auth()->user()->notifications as $notification)
+            <div class="py-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
+                <div class="flex items-center">
+                    <div>
+                        <p class="text-lg font-semibold text-left">{{ $notification->data['title'] }}</p>
+                        <p class="text-gray-600 font-medium text-left">{{ $notification->data['name'] }}</p>
+                        <p class="text-gray-600 text-left">{{ $notification->data['data'] }}</p>
+                        <p class="text-gray-600 text-left font-extralight">{{ $notification->data['created'] }}</p>
+                    </div>
+                    <div>
+                        <a href="{{ route('removeNotif', $notification->id) }}">
+                            <x-bi-x class="w-6 h-6 text-end ml-5 text-gray-600 hover:text-red-600" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        @else
+        <div class="py-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0">Tiada notifikasi</div>
+        @endif
+
+    </div>
             @else
                 <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-black dark:hover:text-gray-400 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
 
@@ -116,7 +145,7 @@
                             <x-dropdown-link :href="route('membership.index')">
                                 {{ __('Keahlian') }}
                             </x-dropdown-link>
-                            <x-dropdown-link>
+                            <x-dropdown-link :href="route('membership.latarBelakang')">
                                 {{ __('Latar Belakang') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('membership.polisi')">
@@ -183,4 +212,21 @@
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#notification-icon").click(function () {
+                $("#notification-container").toggle();
+            });
+
+            $(document).on("click", function (event) {
+                if (!$(event.target).closest("#notification-icon, #notification-container").length) {
+                    $("#notification-container").hide();
+                }
+            });
+        });
+    </script>
+
 </nav>
