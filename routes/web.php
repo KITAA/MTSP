@@ -72,6 +72,9 @@ Route::get('/search', [BeritaController::class, 'search'])->name('search.berita'
 
 Route::get('/details_berita/{berita}', [BeritaController::class, 'show'])->name('details.berita');
 
+/* Route::get('/berita/{berita}/next', [BeritaController::class, 'next'])->name('berita.next');
+Route::get('/berita/{berita}/previous', [BeritaController::class, 'previous'])->name('berita.previous'); */
+
 Route::get('/Ekhairat/Polisi', [MembershipController::class, 'info'])->name('membership.polisi');
 
 Route::get('/infaq', [InfaqController::class, 'derma'])->name('infaq.derma');

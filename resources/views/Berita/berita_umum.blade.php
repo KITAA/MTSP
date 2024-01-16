@@ -18,20 +18,8 @@
     </x-slot>
 
     <style>
-        .berita-content {
+       
 
-            padding: 1rem;
-
-
-
-        }
-
-        .berita-description {
-
-            margin-bottom: 0rem;
-            padding-top: 4rem;
-            padding-bottom: 1rem;
-        }
     </style>
 
     <div class="py-12">
@@ -51,31 +39,16 @@
                                             src="{{ asset('/images/' . $key->image) }}"
                                             class="object-cover w-[300px] h-[150px]" alt=""></a></p>
 
-                                <div class="berita-content">
+                                <div class="p-4">
                                     <a href="{{ route('details.berita', $key->id) }}"
-                                        class="block p-2 sm:p-4 text-xl font-bold text-blue-900 text-left">
+                                        class="block text-xl font-bold text-blue-900 text-left">
                                         {{ $key->name }}
                                     </a>
-                                    <div class="berita-description">
+                                    <div class="mb-0 pt-8 pb-24">
                                         <p class=" text-gray-600 text-sm">
                                             {!! Str::limit($key->description, 100, '...') !!}
                                         </p>
 
-                                        @if (Auth::check() && Auth::user()->usertype == 'admin')
-                                            <div class="p-2">
-                                                <a href="{{ route('edit.berita', $key->id) }}" class="mr-1">
-                                                    <x-secondary-button>
-                                                        {{ __('Edit') }}
-                                                    </x-secondary-button>
-                                                </a>
-
-                                                <a href="{{ route('delete.berita', $key->id) }}" class="m-auto">
-                                                    <x-danger-button>
-                                                        {{ __('Delete') }}
-                                                    </x-danger-button>
-                                                </a>
-                                            </div>
-                                        @endif
 
 
                                     </div>
@@ -84,6 +57,22 @@
 
                             
                                 <div class="absolute bottom-0 left-0 right-0 p-2">
+
+                                    @if (Auth::check() && Auth::user()->usertype == 'admin')
+                                            <div class="">
+                                                <a href="{{ route('edit.berita', $key->id) }}" class="">
+                                                    <x-secondary-button>
+                                                        {{ __('Edit') }}
+                                                    </x-secondary-button>
+                                                </a>
+
+                                                <a href="{{ route('delete.berita', $key->id) }}" class="mt-4">
+                                                    <x-danger-button>
+                                                        {{ __('Delete') }}
+                                                    </x-danger-button>
+                                                </a>
+                                            </div>
+                                        @endif
                                     <p class=" text-gray-400 text-xs text-center">
                                         {{ date('F j, Y') }}
                                     </p>

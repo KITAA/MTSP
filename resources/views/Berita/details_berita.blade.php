@@ -11,18 +11,45 @@
 
 
         <div class="w-1/2 sm:px-6 lg:px-8 bg-white shadow  p-4 sm:p-8">
-            <div
-                class="flex flex-col  overflow-hidden break-words  p-4 sm:p-8">
-                <img src="{{ asset('images/' . $berita->image) }}" alt="" class="">
-                <h2 class="text-4xl font-light text-blue-900 mt-4">
-                    {{ $berita->name }}
-                </h2>
-                <p class="mt-4">
-                    {!! $berita->description !!}
-                </p>
+            <div class="flex flex-col  overflow-hidden break-words  p-4 sm:p-8">
+                    <img src="{{ asset('images/' . $berita->image) }}" alt="" class="">
+                    <h2 class="text-4xl font-light text-blue-900 mt-4">
+                        {{ $berita->name }}
+                    </h2>
+                    <p class="mt-12">
+                        {!! $berita->description !!}
+                    </p>
 
             </div>
+
+            <div class="flex justify-between">
+                <!-- Previous button -->
+                <a href="{{ $previousBerita ? route('details.berita', $previousBerita->id) : '#' }}"
+                    class="text-left @if (!$previousBerita) opacity-50 cursor-not-allowed @endif hover:text-gray-600"
+                    @if (!$previousBerita) disabled @endif>
+                    <div class="">
+                        <p class="font-semibold text-base text-gray-800 leading-tight">
+                            {{ __('<- Previous') }}
+                        </p>
+                    </div>
+                </a>
+
+                <!-- Next button -->
+                <a href="{{ $nextBerita ? route('details.berita', $nextBerita->id) : '#' }}"
+                    class="{{ !$nextBerita ? 'opacity-50 cursor-not-allowed' : '' }} text-right"
+                    @if (!$nextBerita) disabled @endif>
+                    <div class="">
+                        <p class="font-semibold text-base text-gray-800 leading-tight">
+                            {{ __('Next ->') }}
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+
         </div>
+
+
 
 
 
@@ -59,12 +86,20 @@
                             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                                 {{ __('Kategori') }}
                             </h2>
-
                         </div>
+                        <a href="{{ route('berita umum')}}">
+                            <p class="mt-6 text-sm text-gray-600 hover:text-gray-800">
+                                {{ __('Berita Umum') }}
+                            </p>
+                        </a>
                     </form>
 
                 </div>
             </div>
+
+
+
+
         </div>
 
     </div>
