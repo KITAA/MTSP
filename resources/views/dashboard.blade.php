@@ -1,51 +1,49 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Utama') }}
-        </h2>
-    </x-slot>
+    @if (!empty($berita))
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Utama') }}
+            </h2>
+        </x-slot>
 
-    <script>
-        function scrollToLeft() {
-            const slider = document.getElementById('slider');
-            slider.scrollLeft -= 300;
-        }
-    
-        function scrollToRight() {
-            const slider = document.getElementById('slider');
-            slider.scrollLeft += 300;
-        }
-    </script>
-    
-    <div class="py-12">
-        <h2 class="py-6 px-40 font-bold text-2xl text-gray-800 leading-tight">
-            {{ __('Berita Masjid') }}
-        </h2>
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @if (!empty($berita))
-            <div class="relative flex items-center">
-                <div id="slider" class="flex w-full h-full overflow-x-scroll overflow-y-hidden whitespace-nowrap scroll-smooth">
-                    @foreach($berita as $beritaa)
-                        <a href="{{ route('details.berita', $beritaa->id) }}">
-                            <div class="rounded-2xl w-80 h-80 m-2 cursor-pointer transition duration-300 ease-in-out bg-cover bg-center" style="background-image: url('{{ asset('/images/' . $beritaa->image) }}')">
-                            </div>
-                        </a>
-                    @endforeach
+        <script>
+            function scrollToLeft() {
+                const slider = document.getElementById('slider');
+                slider.scrollLeft -= 300;
+            }
+        
+            function scrollToRight() {
+                const slider = document.getElementById('slider');
+                slider.scrollLeft += 300;
+            }
+        </script>
+        
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <h2 class="py-6 px-40 font-bold text-2xl text-gray-800 leading-tight">
+                    {{ __('Berita Masjid') }}
+                </h2>
+                <div class="relative flex items-center">
+                    <div id="slider" class="flex w-full h-full overflow-x-scroll overflow-y-hidden whitespace-nowrap scroll-smooth">
+                        @foreach($berita as $beritaa)
+                            <a href="{{ route('details.berita', $beritaa->id) }}">
+                                <div class="rounded-2xl w-80 h-80 m-2 cursor-pointer transition duration-300 ease-in-out bg-cover bg-center" style="background-image: url('{{ asset('/images/' . $beritaa->image) }}')">
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="p-4 relative flex items-center">
+                    <div onclick="scrollToRight()" class="w-12 h-12 absolute top-70 right-0">
+                        <x-heroicon-o-arrow-right-circle/>
+                    </div>
+                    <div onclick="scrollToLeft()" class="w-12 h-12 absolute top-70 left-0">
+                        <x-heroicon-o-arrow-left-circle/>
+                    </div>
                 </div>
             </div>
-            <div class="p-4 relative flex items-center">
-                <div onclick="scrollToRight()" class="w-12 h-12 absolute top-70 right-0">
-                    <x-heroicon-o-arrow-right-circle/>
-                </div>
-                <div onclick="scrollToLeft()" class="w-12 h-12 absolute top-70 left-0">
-                    <x-heroicon-o-arrow-left-circle/>
-                </div>
-            </div>
-            
-            @endif
         </div>
-    </div>
-
+    @endif
     <div class="bg-white py-20 px-40">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
             {{ __('E-Khairat') }}
