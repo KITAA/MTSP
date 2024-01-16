@@ -13,55 +13,39 @@ class AktivitiController extends Controller
     public function index()
     {
         $aktivitis = Aktiviti::all();
-
-        $upcomingAktivitis = Aktiviti::where('tarikh_aktiviti', '>=', today())
+    
+        $today = today();
+    
+        $upcomingAktivitis = Aktiviti::where('tarikh_aktiviti', '>=', $today)
             ->orderBy('tarikh_aktiviti')
             ->orderBy('masa_mula')
             ->get();
-
-        $pastAktivitis = Aktiviti::where('tarikh_aktiviti', '<', today())
+    
+        $latestAktivitis = Aktiviti::where('tarikh_aktiviti', '<', $today)
+            ->orderByDesc('tarikh_aktiviti')
+            ->orderByDesc('masa_mula')
+            ->take(3)
+            ->get();
+    
+        $pastAktivitis = Aktiviti::where('tarikh_aktiviti', '<', $today)
             ->orderByDesc('tarikh_aktiviti')
             ->orderByDesc('masa_mula')
             ->get();
-
+    
         return view('Berita.Aktiviti.aktiviti', [
             'aktivitis' => $aktivitis,
             'upcomingAktivitis' => $upcomingAktivitis,
+            'latestAktivitis' => $latestAktivitis,
             'pastAktivitis' => $pastAktivitis,
         ]);
     }
+    
 
     public function calendar()
     {
         return view('Berita.Aktiviti.aktiviti_calendar', ['useBootstrap' => true]);
     }
 
-/*     public function getEvents()
-    {
-        $aktivitis = Aktiviti::all();
-    
-        $events = $aktivitis->map(function ($aktiviti) {
-            $startDateTime = $aktiviti->tarikh_aktiviti;
-            $endDateTime = $aktiviti->tarikh_aktiviti;
-    
-            // Separate date and time, then format
-            $startDate = \Carbon\Carbon::parse($startDateTime)->format('Y-m-d');
-            $startTime = \Carbon\Carbon::parse($startDateTime)->format('H:i:s'); // Ensure time includes seconds
-            
-            $endDate = \Carbon\Carbon::parse($endDateTime)->format('Y-m-d');
-            $endTime = \Carbon\Carbon::parse($endDateTime)->format('H:i:s'); // Ensure time includes seconds
-    
-            return [
-                'title' => $aktiviti->tajuk_aktiviti,
-                'start' => $startDate . 'T' . $startTime,
-                'end' => $endDate . 'T' . $endTime,
-                'location' => $aktiviti->tempat_aktiviti,
-                'description' => $aktiviti->deskripsi_aktiviti,
-            ];
-        });
-    
-        return response()->json($events);
-    } */
     public function getEvents()
     {
         $aktivitis = Aktiviti::all();
@@ -146,7 +130,10 @@ class AktivitiController extends Controller
             ->orWhere('deskripsi_aktiviti', 'like', "%$searchQuery%")
             ->get();
 
-        return view('Berita.Aktiviti.search_results', ['searchResults' => $searchResults]);
+        return view('Berita.Aktiviti.search_aktiviti', [
+            'searchResults' => $searchResults,
+            'searchQuery' => $searchQuery,
+        ]);
     }
 
     /**
