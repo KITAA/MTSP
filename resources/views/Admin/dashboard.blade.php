@@ -23,6 +23,7 @@
                         <div class="flex justify-start">
                             <x-clarity-users-solid class="w-12 h-12"/>
                             <h3 class="text-lg font-semibold mb-4 ml-4">Jumlah Ahli</h3>
+                            test
                         </div>
                     </div>
 
