@@ -21,7 +21,8 @@ return new class extends Migration
             $table->text('address');
             $table->string('phone');
             $table->string('emergency_no');
-            $table->enum('status', ['Aktif', 'Tamat tempoh', 'Dalam proses'])->default('Dalam proses');
+            $table->enum('status', ['Aktif', 'Tamat tempoh', 'Dalam proses', 'Dilucutkan'])->default('Dalam proses');
+            $table->double('membershipDuration');
             $table->timestamps();
         });
     }

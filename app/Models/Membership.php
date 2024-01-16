@@ -18,6 +18,7 @@ class Membership extends Model
         'phone',
         'emergency_no',
         'status',
+        'membershipDuration',
     ];
 
     public function tanggungan()
