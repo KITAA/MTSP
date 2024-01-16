@@ -145,7 +145,7 @@
                             <x-dropdown-link :href="route('membership.index')">
                                 {{ __('Keahlian') }}
                             </x-dropdown-link>
-                            <x-dropdown-link>
+                            <x-dropdown-link :href="route('membership.latarBelakang')">
                                 {{ __('Latar Belakang') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('membership.polisi')">

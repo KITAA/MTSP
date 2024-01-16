@@ -110,6 +110,7 @@ Route::get('/berita-masjid/aktiviti/search', [AktivitiController::class, 'search
 
 
 Route::get('/Ekhairat/Polisi', [MembershipController::class, 'info'])->name('membership.polisi');
+Route::get('/Ekhairat/LatarBelakang', function(){return view('E-khairat.latarBelakang');})->name('membership.latarBelakang');
 
 
 Route::post('/webhook', [InfaqController::class, 'webhook'])->name('infaq.webhook');
