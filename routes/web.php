@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AktivitiController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BeritaController;
@@ -113,6 +114,7 @@ Route::get('/infaq/cancel', [InfaqController::class, 'cancel'])->name('infaq.can
 Route::post('/webhook', [InfaqController::class, 'webhook'])->name('infaq.webhook');
 
 // Hubungi Kami Routes (Public)
-Route::get('/hubungi_kami', [HomeController::class, 'contact'])->name('hubungi.kami');
+Route::get('/hubungi_kami', [ContactController::class, 'index'])->name('hubungi.kami');
+Route::get('/contact/submit', [ContactController::class, 'submitForm'])->name('contact.submit');
 
 require __DIR__ . '/auth.php';

@@ -43,5 +43,7 @@ class HomeController extends Controller
             // The user is a guest
             return view('dashboard', compact('berita'));
         }
+
     }    
+
 }
