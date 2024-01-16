@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('tajuk_aktiviti');
             $table->string('gambar_aktiviti');
             $table->date('tarikh_aktiviti');
-            $table->string('masa_mula');
-            $table->string('masa_tamat');
+            $table->string('masa_aktiviti');
             $table->string('tempat_aktiviti');
             $table->longText('deskripsi_aktiviti');
             $table->foreignId('user_id')->constrained(); //untuk tengok siapa post aktiviti ni

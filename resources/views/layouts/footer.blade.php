@@ -1,5 +1,6 @@
 <!-- Footer container -->
 <footer class="bg-gray-700 text-neutral-700 dark:bg-gray-800 dark:text-neutral-200 lg:text-left mt-20"> <!-- change the mt to 20 after every page is done -->
+
     
     <!-- Top area: Blocks -->
     <div class="border-b-2 border-gray-900 p-6 dark:border-gray-800">
