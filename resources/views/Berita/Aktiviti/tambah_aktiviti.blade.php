@@ -45,25 +45,36 @@
 
                             <div>
                                 <x-input-label for="gambar_aktiviti" :value="__('Gambar')" />
-                                <input type="file" name="gambar_aktiviti" id="gambar_aktiviti"
-                                    class="form-input mt-1 block w-full" required>
+                                <input id="gambar_aktiviti" class="form-input mt-1 block w-full" type="file"
+                                    name="gambar_aktiviti" required>
                                 <x-input-error class="mt-2" :messages="$errors->get('gambar_aktiviti')" />
+                            </div>
+                            
+                            <div>
+                                <x-input-label for="tarikh_aktiviti" :value="__('Tarikh')" />
+                                <x-text-input id="tarikh_aktiviti" class="form-input mt-1 block w-full" type="date"
+                                    name="tarikh_aktiviti"
+                                    :value="old('tarikh_aktiviti') ?? ($aktiviti->tarikh_aktiviti->format('Y-m-d') ?? '')"
+                                    required />
+                                <x-input-error class="mt-2" :messages="$errors->get('tarikh_aktiviti')" />
                             </div>
 
                             <div class="flex flex-wrap -mx-4 mb-4">
                                 <div class="w-full md:w-1/2 px-4 mb-4 md:mb-0">
-                                    <x-input-label for="tarikh_aktiviti" :value="__('Tarikh')" />
-                                    <input id="tarikh_aktiviti" class="form-input mt-1 block w-full" type="date"
-                                        name="tarikh_aktiviti"
-                                        :value="old('tarikh_aktiviti') ?? ($aktiviti->tarikh_aktiviti->format('Y-m-d') ?? '')"
+                                    <x-input-label for="masa_mula" :value="__('Masa Mula')" />
+                                    <x-text-input id="masa_mula" class="form-input mt-1 block w-full" type="time"
+                                        name="masa_mula"
+                                        :value="old('masa_mula') ?? ($aktiviti->masa_mula ?? '')"
                                         required />
+                                    <x-input-error class="mt-2" :messages="$errors->get('masa_mula')" />
                                 </div>
                                 <div class="w-full md:w-1/2 px-4">
-                                    <x-input-label for="masa_aktiviti" :value="__('Masa')" />
-                                    <input id="masa_aktiviti" class="form-input mt-1 block w-full" type="time"
-                                        name="masa_aktiviti"
-                                        :value="old('masa_aktiviti') ?? ($aktiviti->masa_aktiviti ?? '')"
+                                    <x-input-label for="masa_tamat" :value="__('Masa Tamat')" />
+                                    <x-text-input id="masa_tamat" class="form-input mt-1 block w-full" type="time"
+                                        name="masa_tamat"
+                                        :value="old('masa_tamat') ?? ($aktiviti->masa_tamat ?? '')"
                                         required />
+                                    <x-input-error class="mt-2" :messages="$errors->get('masa_tamat')" />
                                 </div>
                             </div>
 
@@ -73,12 +84,15 @@
                                     name="tempat_aktiviti"
                                     :value="old('tempat_aktiviti') ?? ($aktiviti->tempat_aktiviti ?? '')"
                                     required />
+                                <x-input-error class="mt-2" :messages="$errors->get('tempat_aktiviti')" />
                             </div>
     
                             <div class="mb-4">
                                 <x-input-label for="deskripsi_aktiviti" :value="__('Penerangan')" />
-                                <textarea name="deskripsi_aktiviti" id="deskripsi_aktiviti" class="form-input mt-1 block w-full" rows="5"
+                                <textarea id="deskripsi_aktiviti" class="form-input mt-1 block w-full" rows="5"
+                                    name="deskripsi_aktiviti"
                                     required>{{ old('deskripsi_aktiviti') ?? ($aktiviti->deskripsi_aktiviti ?? '') }}</textarea>
+                                <x-input-error class="mt-2" :messages="$errors->get('deskripsi_aktiviti')" />
                             </div>
 
                         </div>

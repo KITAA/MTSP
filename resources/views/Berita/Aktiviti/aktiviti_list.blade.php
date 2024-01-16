@@ -9,7 +9,7 @@
     </div>
     <div class="text-sm text-gray-500">{{ $aktiviti->tempat_aktiviti }}</div>
     <a href="{{ route('aktiviti.show', $aktiviti) }}">
-        <img src="/img/aktiviti/{{ $aktiviti->gambar_aktiviti }}" width="400px" alt="Poster Aktiviti">
+        <img src="/img/aktiviti/{{ $aktiviti->gambar_aktiviti }}" width="400px" alt="{{ $aktiviti->tajuk_aktiviti }}">
     </a>
     <div class="mt-2 text-sm text-gray-500">{{ $aktiviti->deskripsi_aktiviti }}</div>
 

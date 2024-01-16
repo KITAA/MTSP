@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aktiviti;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class AktivitiController extends Controller
@@ -17,12 +16,12 @@ class AktivitiController extends Controller
 
         $upcomingAktivitis = Aktiviti::where('tarikh_aktiviti', '>=', today())
             ->orderBy('tarikh_aktiviti')
-            ->orderBy('masa_aktiviti')
+            ->orderBy('masa_mula')
             ->get();
 
         $pastAktivitis = Aktiviti::where('tarikh_aktiviti', '<', today())
             ->orderByDesc('tarikh_aktiviti')
-            ->orderByDesc('masa_aktiviti')
+            ->orderByDesc('masa_mula')
             ->get();
 
         return view('Berita.Aktiviti.aktiviti', [
@@ -32,6 +31,54 @@ class AktivitiController extends Controller
         ]);
     }
 
+    public function calendar()
+    {
+        return view('Berita.Aktiviti.aktiviti_calendar', ['useBootstrap' => true]);
+    }
+
+/*     public function getEvents()
+    {
+        $aktivitis = Aktiviti::all();
+    
+        $events = $aktivitis->map(function ($aktiviti) {
+            $startDateTime = $aktiviti->tarikh_aktiviti;
+            $endDateTime = $aktiviti->tarikh_aktiviti;
+    
+            // Separate date and time, then format
+            $startDate = \Carbon\Carbon::parse($startDateTime)->format('Y-m-d');
+            $startTime = \Carbon\Carbon::parse($startDateTime)->format('H:i:s'); // Ensure time includes seconds
+            
+            $endDate = \Carbon\Carbon::parse($endDateTime)->format('Y-m-d');
+            $endTime = \Carbon\Carbon::parse($endDateTime)->format('H:i:s'); // Ensure time includes seconds
+    
+            return [
+                'title' => $aktiviti->tajuk_aktiviti,
+                'start' => $startDate . 'T' . $startTime,
+                'end' => $endDate . 'T' . $endTime,
+                'location' => $aktiviti->tempat_aktiviti,
+                'description' => $aktiviti->deskripsi_aktiviti,
+            ];
+        });
+    
+        return response()->json($events);
+    } */
+    public function getEvents()
+    {
+        $aktivitis = Aktiviti::all();
+    
+        $events = $aktivitis->map(function ($aktiviti) {
+            return [
+                'title' => $aktiviti->tajuk_aktiviti,
+                'start' => $aktiviti->tarikh_aktiviti->format('Y-m-d') . ' ' . $aktiviti->masa_mula,
+                'end' => $aktiviti->tarikh_aktiviti->format('Y-m-d') . ' ' . $aktiviti->masa_tamat,
+                'location' => $aktiviti->tempat_aktiviti,
+                'description' => $aktiviti->deskripsi_aktiviti,
+            ];
+        });
+    
+        return response()->json($events);
+    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -50,7 +97,8 @@ class AktivitiController extends Controller
             'tajuk_aktiviti' => 'required',
             'gambar_aktiviti' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tarikh_aktiviti' => 'required|date',
-            'masa_aktiviti' => 'required',
+            'masa_mula' => 'required',
+            'masa_tamat' => 'required',
             'tempat_aktiviti' => 'required',
             'deskripsi_aktiviti' => 'required',
         ]);
@@ -67,7 +115,8 @@ class AktivitiController extends Controller
         $incomingFields['tajuk_aktiviti'] = strip_tags($incomingFields['tajuk_aktiviti']);
         $incomingFields['gambar_aktiviti'] = strip_tags($incomingFields['gambar_aktiviti']);
         $incomingFields['tarikh_aktiviti'] = strip_tags($incomingFields['tarikh_aktiviti']);
-        $incomingFields['masa_aktiviti'] = strip_tags($incomingFields['masa_aktiviti']);
+        $incomingFields['masa_mula'] = strip_tags($incomingFields['masa_mula']);
+        $incomingFields['masa_tamat'] = strip_tags($incomingFields['masa_tamat']);
         $incomingFields['tempat_aktiviti'] = strip_tags($incomingFields['tempat_aktiviti']);
         $incomingFields['deskripsi_aktiviti'] = strip_tags($incomingFields['deskripsi_aktiviti']);
         $incomingFields['user_id'] = auth()->id();
@@ -119,7 +168,8 @@ class AktivitiController extends Controller
             'tajuk_aktiviti' => 'required',
             'gambar_aktiviti' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tarikh_aktiviti' => 'required|date',
-            'masa_aktiviti' => 'required',
+            'masa_mula' => 'required',
+            'masa_tamat' => 'required',
             'tempat_aktiviti' => 'required',
             'deskripsi_aktiviti' => 'required',
         ]);
@@ -138,7 +188,8 @@ class AktivitiController extends Controller
         $incomingFields['tajuk_aktiviti'] = strip_tags($incomingFields['tajuk_aktiviti']);
         $incomingFields['gambar_aktiviti'] = strip_tags($incomingFields['gambar_aktiviti']);
         $incomingFields['tarikh_aktiviti'] = strip_tags($incomingFields['tarikh_aktiviti']);
-        $incomingFields['masa_aktiviti'] = strip_tags($incomingFields['masa_aktiviti']);
+        $incomingFields['masa_mula'] = strip_tags($incomingFields['masa_mula']);
+        $incomingFields['masa_tamat'] = strip_tags($incomingFields['masa_tamat']);
         $incomingFields['tempat_aktiviti'] = strip_tags($incomingFields['tempat_aktiviti']);
         $incomingFields['deskripsi_aktiviti'] = strip_tags($incomingFields['deskripsi_aktiviti']);
 
