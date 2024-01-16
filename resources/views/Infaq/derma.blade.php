@@ -14,7 +14,7 @@
                     <div class="pt-2 max-w mx-auto sm:px-6 lg:px-8 space-y-6">
                         <label class = "relative cursor-pointer">
                             <input type="text" placeholder="Email" name="email" :required="true" class="block mt-1 w-full px-6 bg-white border-2 rounded-lg border-gray-600 border-opacity-50 outline-none focus:border-blue-600 focus:text-blue-600 transition duration-200"/>
-                            <span class = "text-white text-opacity-0 absolute left-5 top-6 px-2 transition duration-200 input-text">Email</span>
+                            <span class = "bg-white opacity-0 absolute left-5 top-7 px-2 transition duration-200 input-text">Email</span>
                         </label>
                     </div>
                 @endif
@@ -23,7 +23,7 @@
                     <div class="pt-4 pb-6 max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                         <label class = "relative cursor-pointer">
                             <input type="text" placeholder="Jumlah Infaq" name="donationAmount" :required="true" class="block mt-1 w-full px-6 bg-white border-2 rounded-lg border-gray-600 border-opacity-50 outline-none focus:border-blue-600 focus:text-blue-600 transition duration-200"/>
-                            <span class = "text-white text-opacity-0 absolute left-5 top-6 px-2 transition duration-200 input-text">Jumlah Infaq</span>
+                            <span class = "bg-white opacity-0 absolute left-3 top-7 px-2 transition duration-200 input-text">Jumlah Infaq</span>
                         </label>
                     </div>
                     <div class="flex">

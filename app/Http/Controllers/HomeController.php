@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Infaq;
+use App\Models\Berita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -13,6 +15,8 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $berita = Berita::orderBy('created_at', 'ASC')->get();
+
         if (Auth::check()) {
             $usertype = Auth::user()->usertype;
 
@@ -28,7 +32,7 @@ class HomeController extends Controller
             } 
             
             elseif ($usertype == 'user') {
-                return view('dashboard');
+                return view('dashboard', compact('berita'));
             } 
             
             else {
@@ -36,7 +40,7 @@ class HomeController extends Controller
             }
         } else {
             // The user is a guest
-            return view('dashboard');
+            return view('dashboard', compact('berita'));
         }
     }    
 }
