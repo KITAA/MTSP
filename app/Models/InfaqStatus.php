@@ -5,9 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Infaq extends Model
+class InfaqStatus extends Model
 {
     use HasFactory;
-    
-    protected $fillable = ['email','donationAmount'];
 }
