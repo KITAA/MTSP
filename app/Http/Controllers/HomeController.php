@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Membership;
-use App\Notifications\DaftarAhliNotification;
+use App\Models\Payment;
+
 
 class HomeController extends Controller
 {
@@ -16,7 +17,10 @@ class HomeController extends Controller
             $usertype = Auth::user()->usertype;
 
             if ($usertype == 'admin') {
-                return view('admin.dashboard');
+                $totalUser=User::all()->count();
+                $totalMembership=Membership::all()->count();
+                $totalMoney=Payment::all()->sum('price');
+                return view('admin.dashboard', compact('totalUser', 'totalMembership', 'totalMoney'));
             } 
             
             elseif ($usertype == 'user') {
