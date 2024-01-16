@@ -12,16 +12,16 @@ use Illuminate\Queue\SerializesModels;
 class InfaqMailable extends Mailable
 {
     use Queueable, SerializesModels;
-    private $header;
-    private $body;
-
+    
+    public $mailData;
+    public $infaq;
     /**
      * Create a new message instance.
      */
-    public function __construct($header, $body)
+    public function __construct($mailData, $infaq)
     {
-        $this->header = $header;
-        $this->$body = $body;
+        $this->mailData = $mailData;
+        $this->infaq = $infaq;
     }
 
     /**
@@ -30,7 +30,7 @@ class InfaqMailable extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->header,
+            subject: 'Infaq Payment Receipt',
         );
     }
 
@@ -40,7 +40,7 @@ class InfaqMailable extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'Infaq.email'
+            view: 'infaq.email',
         );
     }
 
