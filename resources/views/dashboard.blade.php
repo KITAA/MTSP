@@ -41,6 +41,14 @@
                         <x-heroicon-o-arrow-left-circle/>
                     </div>
                 </div>
+                <div class="p-4 relative flex items-center">
+                    <div onclick="scrollToRight()" class="w-12 h-12 absolute top-70 right-0">
+                        <x-heroicon-o-arrow-right-circle/>
+                    </div>
+                    <div onclick="scrollToLeft()" class="w-12 h-12 absolute top-70 left-0">
+                        <x-heroicon-o-arrow-left-circle/>
+                    </div>
+                </div> 
             </div>
         </div>
     @endif

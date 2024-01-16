@@ -26,9 +26,10 @@ class HomeController extends Controller
                 $totalMoney=Payment::all()->sum('price');
                 $totalInfaq=Infaq::all()->sum('donationAmount');
                 $membership=Membership::where('status', 'Dalam proses')->get();
-                $infaq = Infaq::all();
+                $infaq = Infaq::where('status', 'paid')->get();
+                $user = User::all();
                 
-                return view('admin.dashboard', compact('totalUser', 'totalMembership', 'totalMoney', 'totalInfaq', 'membership', 'infaq'));
+                return view('admin.dashboard', compact('totalUser', 'totalMembership', 'totalMoney', 'totalInfaq', 'membership', 'infaq', 'user'));
             } 
             
             elseif ($usertype == 'user') {
