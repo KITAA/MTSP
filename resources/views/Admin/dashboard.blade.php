@@ -8,34 +8,129 @@
     <x-slot name="slot">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-                <div class="flex flex-row justify-content-center">
-                    <!-- Pengguna Box -->
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 w-80">
-                        <div class="flex justify-start">
-                            <x-fas-user class="w-10 h-10"/>
-                            <h3 class="text-lg font-semibold mb-4 ml-4">Jumlah Pengguna</h3>
+                <div class="flex flex-col">
+                    <div class="flex justify-center">
+                        <!-- Pengguna Box -->
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mx-4 w-80">
+                            <div class="flex justify-start">
+                                <div>
+                                    <x-fas-user class="w-10 h-10 text-yellow-600"/>
+                                </div>
+                                <div class="ml-6">
+                                    <h3 class="text-lg font-semibold">Jumlah Pengguna</h3>
+                                    <p >{{ $totalUser }}</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Ahli Box -->
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 w-80">
-                        <div class="flex justify-start">
-                            <x-clarity-users-solid class="w-12 h-12"/>
-                            <h3 class="text-lg font-semibold mb-4 ml-4">Jumlah Ahli</h3>
+                        <!-- Ahli Box -->
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mx-4  w-80">
+                            <div class="flex justify-start">
+                                <div>
+                                    <x-clarity-users-solid class="w-12 h-12 text-blue-500"/>
+                                </div>
+                                <div class="ml-6">
+                                    <h3 class="text-lg font-semibold">Jumlah Ahli</h3>
+                                    <p >{{ $totalMembership }}</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Tabung Box -->
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 w-80">
-                        <div class="flex justify-start">
-                            <x-fas-money-bill-alt class="w-12 h-12"/>
-                            <h3 class="text-lg font-semibold mb-4 ml-4">Tabung E-Khairat</h3>
+                        <!-- Tabung Box -->
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mx-4 w-80">
+                            <div class="flex justify-start">
+                                <div>
+                                    <x-fas-money-bill-alt class="w-12 h-12 text-green-500"/>
+                                </div>
+                                <div class="ml-6">
+                                    <h3 class="text-lg font-semibold">Tabung E-Khairat</h3>
+                                    <p class="ml-1">RM {{ $totalMoney }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mx-4 w-80">
+                            <div class="flex justify-start">
+                                <div>
+                                    <x-fas-donate class="w-12 h-12 text-red-300"/>
+                                </div>
+                                <div class="ml-6">
+                                    <h3 class="text-lg font-semibold">Jumlah Infaq</h3>
+                                    <p class="ml-1">RM {{ $totalInfaq }}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
+                <div class="flex items-center">
+                    <div class="mt-10">
+                        <table class="w-2/5 mx-4 bg-white shadow overflow-hidden sm:rounded-lg divide-y divide-gray-200">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ahli E-Khairat</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            </tr>
+                            <tbody class="divide-y divide-gray-200">
+                                @foreach ($membership as $member)
+                                    <tr class="bg-white">
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $member['fullname'] }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            @if ($member['status'] === 'Dalam proses')
+                                                <span class="bg-yellow-500 text-white px-3 py-1 rounded">Dalam proses</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                @if ($membership->count() <= 5)
+                                    @for ($i = 0; $i < 5 - $membership->count(); $i++)
+                                        <tr class="bg-white">
+                                            <td class="px-6 py-6 whitespace-nowrap"></td>
+                                            <td class="px-6 py-6 whitespace-nowrap"></td>
+                                        </tr>
+                                    @endfor
+                                @endif
+                            </tbody>
+                        </table>
+                        
+                        <a href="{{ route('membership.index') }}" class="text-blue-500 ml-6">See All</a>
+                        
+                    </div>
+                <div>
+                    <div class="mt-10">
+                        <table class="w-2/5 mx-4 bg-white shadow overflow-hidden sm:rounded-lg divide-y divide-gray-200">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Penderma</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            </tr>
+                            <tbody class="divide-y divide-gray-200">
+                                @foreach ($infaq as $infaq)
+                                    <tr class="bg-white">
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $infaq['donationAmount'] }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            @if ($infaq['status'] === 'paid')
+                                                <span class="bg-green-500 text-white px-11 py-1 rounded">Paid</span>
+                                            @elseif ($infaq['status'] === 'unpaid')
+                                                <span class="bg-red-500 text-white px-11 py-1 rounded">Unpaid</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                @if ($infaq->count() <= 5)
+                                    @for ($i = 0; $i < 5 - $infaq->count(); $i++)
+                                        <tr class="bg-white">
+                                            <td class="px-6 py-6 whitespace-nowrap"></td>
+                                            <td class="px-6 py-6 whitespace-nowrap"></td>
+                                        </tr>
+                                    @endfor
+                                @endif
+                            </tbody>
+                        </table>
+                        
+                        <a href="{{ route('infaq.derma') }}" class="text-blue-500 ml-6">See All</a>
+                    </div>
+                    
+                </div>
             </div>
+        </div>
         </div>
     </x-slot>
 </x-app-layout>
