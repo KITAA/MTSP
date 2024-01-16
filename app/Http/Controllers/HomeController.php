@@ -27,5 +27,10 @@ class HomeController extends Controller
             // The user is a guest
             return view('dashboard');
         }
-    }    
+    }
+    
+    public function contact()
+    {
+        return view('layouts.contact');
+    }
 }

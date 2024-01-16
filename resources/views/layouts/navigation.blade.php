@@ -155,7 +155,7 @@
                     </x-dropdown>
                 </div>
 
-                <x-nav-link>
+                <x-nav-link :href="route('hubungi.kami')">
                     {{ __('Hubungi Kami') }}
                 </x-nav-link>
 
