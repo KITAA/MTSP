@@ -62,9 +62,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center">
+                <div class="flex items-center justify-center">
                     <div class="mt-10">
-                        <table class="w-2/5 mx-4 bg-white shadow overflow-hidden sm:rounded-lg divide-y divide-gray-200">
+                        <table class="w-96 mx-4 bg-white shadow overflow-hidden sm:rounded-lg divide-y divide-gray-200">
                             <caption class="font-medium uppercase tracking-wider bg-white shadow  rounded-full py-2 mb-2">Ahli Terkini</caption>
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ahli E-Khairat</th>
@@ -95,9 +95,8 @@
                         <a href="{{ route('membership.index') }}" class="text-blue-500 ml-6">See All</a>
                         
                     </div>
-                <div>
                     <div class="mt-10">
-                        <table class="w-2/5 mx-4 bg-white shadow overflow-hidden sm:rounded-lg divide-y divide-gray-200">
+                        <table class="w-96 mx-4 bg-white shadow overflow-hidden sm:rounded-lg divide-y divide-gray-200">
                             <caption class="font-medium uppercase tracking-wider bg-white shadow  rounded-full py-2 mb-2"">Infaq Terkini</caption>
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Infaq</th>
@@ -130,7 +129,7 @@
                         <a href="{{ route('infaq.derma') }}" class="text-blue-500 ml-6">See All</a>
                     </div>
                     
-                </div>
+                
             </div>
         </div>
         </div>
