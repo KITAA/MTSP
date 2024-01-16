@@ -21,7 +21,7 @@
     </x-slot>
 
     @if (session('success'))
-        <div class="alert alert-success>
+        <div class="alert alert-success">
             <p class="text-center">{{ session('success') }}</p>
         </div>
     @endif

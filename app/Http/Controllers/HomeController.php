@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\Membership;
 use App\Models\Payment;
 
-
 class HomeController extends Controller
 {
     public function index()
