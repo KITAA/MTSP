@@ -20,6 +20,8 @@ class MailController extends Controller
          
         Mail::to($payment->email)->send(new ReceiptMail($mailData, $payment));
 
+        session()->forget('payment');
+
         return redirect()->route('membership.success');
         
     }

@@ -6,6 +6,7 @@
         </h2>
     </x-slot>
 
+    <x-slot name="slot">
     <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="mb-4 flex items-center justify-between">
@@ -34,11 +35,11 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ $membership['email'] }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if ($membership['status'] === 'Aktif')
-                                    <span class="bg-green-500 text-black px-2 py-1 rounded">Aktif</span>
+                                    <span class="bg-green-500 text-white px-11 py-1 rounded">Aktif</span>
                                 @elseif ($membership['status'] === 'Dalam proses')
-                                    <span class="bg-yellow-500 text-yellow px-2 py-1 rounded">Dalam proses</span>
+                                    <span class="bg-yellow-500 text-white px-3 py-1 rounded">Dalam proses</span>
                                 @elseif ($membership['status'] === 'Tamat tempoh')
-                                    <span class="bg-red-500 text-black px-2 py-1 rounded">Tamat tempoh</span>
+                                    <span class="bg-red-500 text-white px-2 py-1 rounded">Tamat tempoh</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -55,5 +56,5 @@
         
     </div>
 </div>
-
+    </x-slot>
 </x-app-layout>
