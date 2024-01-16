@@ -79,15 +79,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/Ekhairat/success', [MembershipController::class, 'success'])->name('membership.success');
     Route::get('/Ekhairat/cancel', [MembershipController::class, 'cancel'])->name('membership.cancel');
     Route::get('send-email', [MailController::class, 'sendEmail'])->name('send.email');
+  
     Route::get('/Ekhairat/renew', [MembershipController::class, 'renew'])->name('membership.renew');
-
-
-    // Infaq Routes (Logged-in User)
-    Route::get('/infaq', [InfaqController::class, 'derma'])->name('infaq.derma');
-    Route::post('/infaq/bayar', [InfaqController::class, 'bayar'])->name('infaq.bayar');
-    Route::get('/infaq/success', [InfaqController::class, 'success'])->name('infaq.success');
-    Route::get('/infaq/cancel', [InfaqController::class, 'cancel'])->name('infaq.cancel');
-
     Route::get('/home/removeNotif/{id}', [NotificationController::class, 'removeNotif'])->name('removeNotif');
 
 });
@@ -112,8 +105,11 @@ Route::get('/berita-masjid/aktiviti/search', [AktivitiController::class, 'search
 Route::get('/Ekhairat/Polisi', [MembershipController::class, 'info'])->name('membership.polisi');
 Route::get('/Ekhairat/LatarBelakang', function(){return view('E-khairat.latarBelakang');})->name('membership.latarBelakang');
 
-
+// Infaq routes (Public and Logged-in User)
+Route::get('/infaq', [InfaqController::class, 'derma'])->name('infaq.derma');
+Route::post('/infaq/bayar', [InfaqController::class, 'bayar'])->name('infaq.bayar');
+Route::get('/infaq/success', [InfaqController::class, 'success'])->name('infaq.success');
+Route::get('/infaq/cancel', [InfaqController::class, 'cancel'])->name('infaq.cancel');
 Route::post('/webhook', [InfaqController::class, 'webhook'])->name('infaq.webhook');
-
 
 require __DIR__ . '/auth.php';

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('email', 255);
             $table->decimal('donationAmount', 6, 2);
+            $table->string('status');
+            $table->string('session_id');
             $table->timestamps();
         });
     }
