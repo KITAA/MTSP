@@ -42,10 +42,11 @@
             Dengan hanya RM10 untuk sekali Pendaftaran, Yuran RM5/sebulan atau hanya RM50 setahun, insya Allah jom kita sertai Khairat Kematian Masjid kita ini.
         </p>
 
-
-        <x-primary-button :href="route('membership.create')" class="mt-4">
-            Daftar Sekarang
-        </x-primary-button>
+        <a href="{{route('membership.create')}}" class="mt-4">
+            <x-primary-button>
+                Daftar Sekarang
+            </x-primary-button>
+        </a>
     </div>
 </div>
 
