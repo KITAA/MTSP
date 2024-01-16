@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aktiviti;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class AktivitiController extends Controller
@@ -18,7 +19,7 @@ class AktivitiController extends Controller
     
         $upcomingAktivitis = Aktiviti::where('tarikh_aktiviti', '>=', $today)
             ->orderBy('tarikh_aktiviti')
-            ->orderBy('masa_mula')
+            ->orderBy('masa_aktiviti')
             ->get();
     
         $latestAktivitis = Aktiviti::where('tarikh_aktiviti', '<', $today)
@@ -29,7 +30,7 @@ class AktivitiController extends Controller
     
         $pastAktivitis = Aktiviti::where('tarikh_aktiviti', '<', $today)
             ->orderByDesc('tarikh_aktiviti')
-            ->orderByDesc('masa_mula')
+            ->orderByDesc('masa_aktiviti')
             ->get();
     
         return view('Berita.Aktiviti.aktiviti', [
@@ -81,8 +82,7 @@ class AktivitiController extends Controller
             'tajuk_aktiviti' => 'required',
             'gambar_aktiviti' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tarikh_aktiviti' => 'required|date',
-            'masa_mula' => 'required',
-            'masa_tamat' => 'required',
+            'masa_aktiviti' => 'required',
             'tempat_aktiviti' => 'required',
             'deskripsi_aktiviti' => 'required',
         ]);
@@ -99,8 +99,7 @@ class AktivitiController extends Controller
         $incomingFields['tajuk_aktiviti'] = strip_tags($incomingFields['tajuk_aktiviti']);
         $incomingFields['gambar_aktiviti'] = strip_tags($incomingFields['gambar_aktiviti']);
         $incomingFields['tarikh_aktiviti'] = strip_tags($incomingFields['tarikh_aktiviti']);
-        $incomingFields['masa_mula'] = strip_tags($incomingFields['masa_mula']);
-        $incomingFields['masa_tamat'] = strip_tags($incomingFields['masa_tamat']);
+        $incomingFields['masa_aktiviti'] = strip_tags($incomingFields['masa_aktiviti']);
         $incomingFields['tempat_aktiviti'] = strip_tags($incomingFields['tempat_aktiviti']);
         $incomingFields['deskripsi_aktiviti'] = strip_tags($incomingFields['deskripsi_aktiviti']);
         $incomingFields['user_id'] = auth()->id();
@@ -155,8 +154,7 @@ class AktivitiController extends Controller
             'tajuk_aktiviti' => 'required',
             'gambar_aktiviti' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tarikh_aktiviti' => 'required|date',
-            'masa_mula' => 'required',
-            'masa_tamat' => 'required',
+            'masa_aktiviti' => 'required',
             'tempat_aktiviti' => 'required',
             'deskripsi_aktiviti' => 'required',
         ]);
@@ -175,8 +173,7 @@ class AktivitiController extends Controller
         $incomingFields['tajuk_aktiviti'] = strip_tags($incomingFields['tajuk_aktiviti']);
         $incomingFields['gambar_aktiviti'] = strip_tags($incomingFields['gambar_aktiviti']);
         $incomingFields['tarikh_aktiviti'] = strip_tags($incomingFields['tarikh_aktiviti']);
-        $incomingFields['masa_mula'] = strip_tags($incomingFields['masa_mula']);
-        $incomingFields['masa_tamat'] = strip_tags($incomingFields['masa_tamat']);
+        $incomingFields['masa_aktiviti'] = strip_tags($incomingFields['masa_aktiviti']);
         $incomingFields['tempat_aktiviti'] = strip_tags($incomingFields['tempat_aktiviti']);
         $incomingFields['deskripsi_aktiviti'] = strip_tags($incomingFields['deskripsi_aktiviti']);
 
