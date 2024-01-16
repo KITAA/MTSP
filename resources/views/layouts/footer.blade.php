@@ -1,5 +1,5 @@
 <!-- Footer container -->
-<footer class="flex flex-col items-center bg-neutral-100 text-center dark:bg-neutral-600 lg:text-left">
+<footer class="flex flex-col items-center bg-neutral-100 text-center dark:bg-neutral-600 lg:text-left mt-96">
     
     <div class="container p-6">
         <div class="grid place-items-center md:grid-cols-2 lg:grid-cols-4 gap-8">
