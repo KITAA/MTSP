@@ -4,8 +4,25 @@
 
 input[type="text"]:focus ~ .input-text,
 input[type="text"]:not(:placeholder-shown) ~ .input-text{
-  @apply text-blue-500 transform -translate-y-10 -translate-x-2 scale-75;
+  @apply text-gray-500 opacity-100 transform -translate-y-10 -translate-x-2 scale-75;
 }
+
+#slider {
+  scrollbar-width: thin; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+#slider::-webkit-scrollbar {
+  width: 0 !important; /* This will hide the scrollbar in WebKit browsers */
+}
+
+#slider:hover {
+  scrollbar-width: thin; /* Show scrollbar on hover for Firefox */
+}
+
 .hover\:scale-105:hover {
   transform: scale(1.3);
   font-weight: bold;
