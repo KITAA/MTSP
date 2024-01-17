@@ -71,7 +71,7 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             </tr>
                             <tbody class="divide-y divide-gray-200">
-                                @foreach ($membership as $member)
+                                @foreach ($membership->take(5) as $member)
                                     <tr class="bg-white">
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $member['fullname'] }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -103,7 +103,7 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             </tr>
                             <tbody class="divide-y divide-gray-200">
-                                @foreach ($infaq as $infaq)
+                                @foreach ($infaq->take(5) as $infaq)
                                     <tr class="bg-white">
                                         <td class="px-6 py-4 whitespace-nowrap">RM {{ $infaq['donationAmount'] }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">

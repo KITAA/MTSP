@@ -16,7 +16,7 @@
     <!-- Buttons for Admins -->
     @can('admin')
         <div class="flex justify-end">
-            <a href="{{ route('aktiviti.show', $aktiviti->id) }}" class="mr-1">
+            <a href="{{ route('aktiviti.show', $aktiviti->id) }}" class="mr-2">
                 <x-secondary-button>
                     {{ __('Show') }}
                 </x-secondary-button>

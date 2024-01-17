@@ -118,8 +118,15 @@
                                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                                     {{ __('Kategori') }}
                                 </h2>
+                                
 
                             </div>
+
+                            <a href="{{ route('aktiviti.index')}}">
+                            <p class="mt-6 text-sm text-gray-600 hover:text-gray-800">
+                                {{ __('Aktiviti Masjid') }}
+                            </p>
+                        </a>
                         </form>
 
                     </div>

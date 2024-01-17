@@ -14,24 +14,56 @@ class AktivitiController extends Controller
     public function index()
     {
         $aktivitis = Aktiviti::all();
-
-        $upcomingAktivitis = Aktiviti::where('tarikh_aktiviti', '>=', today())
+    
+        $today = today();
+    
+        $upcomingAktivitis = Aktiviti::where('tarikh_aktiviti', '>=', $today)
             ->orderBy('tarikh_aktiviti')
             ->orderBy('masa_aktiviti')
             ->get();
-
-        $pastAktivitis = Aktiviti::where('tarikh_aktiviti', '<', today())
+    
+        $latestAktivitis = Aktiviti::where('tarikh_aktiviti', '<', $today)
+            ->orderByDesc('tarikh_aktiviti')
+            ->orderByDesc('masa_mula')
+            ->take(3)
+            ->get();
+    
+        $pastAktivitis = Aktiviti::where('tarikh_aktiviti', '<', $today)
             ->orderByDesc('tarikh_aktiviti')
             ->orderByDesc('masa_aktiviti')
             ->get();
-
+    
         return view('Berita.Aktiviti.aktiviti', [
             'aktivitis' => $aktivitis,
             'upcomingAktivitis' => $upcomingAktivitis,
+            'latestAktivitis' => $latestAktivitis,
             'pastAktivitis' => $pastAktivitis,
         ]);
     }
+    
 
+    public function calendar()
+    {
+        return view('Berita.Aktiviti.aktiviti_calendar', ['useBootstrap' => true]);
+    }
+
+    public function getEvents()
+    {
+        $aktivitis = Aktiviti::all();
+    
+        $events = $aktivitis->map(function ($aktiviti) {
+            return [
+                'title' => $aktiviti->tajuk_aktiviti,
+                'start' => $aktiviti->tarikh_aktiviti->format('Y-m-d') . ' ' . $aktiviti->masa_mula,
+                'end' => $aktiviti->tarikh_aktiviti->format('Y-m-d') . ' ' . $aktiviti->masa_tamat,
+                'location' => $aktiviti->tempat_aktiviti,
+                'description' => $aktiviti->deskripsi_aktiviti,
+            ];
+        });
+    
+        return response()->json($events);
+    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -97,7 +129,10 @@ class AktivitiController extends Controller
             ->orWhere('deskripsi_aktiviti', 'like', "%$searchQuery%")
             ->get();
 
-        return view('Berita.Aktiviti.search_results', ['searchResults' => $searchResults]);
+        return view('Berita.Aktiviti.search_aktiviti', [
+            'searchResults' => $searchResults,
+            'searchQuery' => $searchQuery,
+        ]);
     }
 
     /**
