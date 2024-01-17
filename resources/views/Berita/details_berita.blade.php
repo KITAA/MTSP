@@ -1,4 +1,4 @@
-<x-app-layout>
+z<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Berita Umum') }}
@@ -90,6 +90,12 @@
                         <a href="{{ route('berita umum')}}">
                             <p class="mt-6 text-sm text-gray-600 hover:text-gray-800">
                                 {{ __('Berita Umum') }}
+                            </p>
+                        </a>
+
+                        <a href="{{ route('aktiviti.index')}}">
+                            <p class="mt-6 text-sm text-gray-600 hover:text-gray-800">
+                                {{ __('Aktiviti Masjid') }}
                             </p>
                         </a>
                     </form>
