@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        @stack('scripts')
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -31,6 +32,8 @@
             <main>
                 {{ $slot }}
             </main>
+
+            @include('layouts.footer')
         </div>
     </body>
 </html>

@@ -42,4 +42,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function membership()
+    {
+        return $this->hasOne(Membership::class);
+    }
+
+    //try try, ni patutnya untuk admin
+    public function aktiviti()
+    {
+        return $this->hasMany(Aktiviti::class, 'user_id');
+    }
 }
