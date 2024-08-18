@@ -28,56 +28,78 @@
                     </div>
                     <div class="flex">
                         <button class="bg-teal-500 text-white hover:bg-rose-500 px-9 py-2 rounded-full ml-auto mr-9" type="submit">
-                          {{ __('Infaq') }}
+                            {{ __('Infaq') }}
                         </button>
-                      </div>
-                      
-                      
+                    </div>
+                    
+                    
                 </div>
             </div>
-
-            @if (Auth::check() && count($infaqHistory) > 0)
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <h1 class="mb-4 text-lg mx-auto text-gray-600 dark:text-gray-300"><b> Sejarah Infaq </b></h1>
-                    <div class="w-full overflow-x-auto">
-                        <table class="w-full whitespace-no-wrap">                        
-                            <thead>
-                                <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 dark:text-gray-400">
-                                    <th class="text-center gap-1 px-4 py-3">Bilangan</th>
-                                    <th class="text-center px-4 py-3">Jumlah Infaq</th>
-                                    <th class="text-center px-4 py-3">Tarikh Infaq</th>
-                                    <th class="text-center px-4 py-3">Status Infaq</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                @php
-                                    $count = 1;
-                                @endphp
-                                @foreach ($infaqHistory as $infaq)
-                                <tr class="text-gray-700 dark:text-gray-400">
-                                    <td class="text-center px-4 py-3 text-sm hover:scale-105">{{$count++}}</td>
-                                    <td class="text-center px-4 py-3 text-sm hover:scale-105">{{$infaq->donationAmount}}</td>
-                                    <td class="text-center px-4 py-3 text-xs hover:scale-105">{{$infaq->created_at->format('d F Y')}}</td>
-                                    @if($infaq->status == 'paid')
-                                    <td class="text-center px-4 py-3 text-xs hover:scale-105">
-                                      <span class="inline-block px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                        {{$infaq->status}}
-                                      </span>
-                                    </td>
-                                    @else
-                                    <td class="text-center px-4 py-3 text-xs hover:scale-105">
-                                      <span class="inline-block px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
-                                        {{$infaq->status}}
-                                      </span>
-                                    </td>
-                                    @endif
-                                  </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            @endif
         </div>
     </form>
+
+    @if (Auth::check() && count($infaqHistory) > 0)
+        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            <h1 class="mb-4 text-lg mx-auto text-gray-600 dark:text-gray-300"><b> Sejarah Infaq </b></h1>
+            <div class="w-full overflow-x-auto">
+                <table class="w-full whitespace-no-wrap">
+                    <thead>
+                        <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 dark:text-gray-400">
+                            <th class="text-center gap-1 px-4 py-3">Bilangan</th>
+                            <th class="text-center px-4 py-3">Jumlah Infaq</th>
+                            <th class="text-center px-4 py-3">Tarikh Infaq</th>
+                            <th class="text-center px-4 py-3">Status Infaq</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                        @php
+                            $count = 1;
+                        @endphp
+                        @foreach ($infaqHistory as $infaq)
+                        <tr class="text-gray-700 dark:text-gray-400">
+                            <td class="text-center px-4 py-3 text-sm hover:scale-105">{{$count++}}</td>
+                            <td class="text-center px-4 py-3 text-sm hover:scale-105">{{$infaq->donationAmount}}</td>
+                            <td class="text-center px-4 py-3 text-xs hover:scale-105">{{$infaq->created_at->format('d F Y')}}</td>
+                            @if($infaq->status == 'paid')
+                            <td class="text-center px-4 py-3 text-xs hover:scale-105">
+                                <span class="inline-block px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                {{$infaq->status}}
+                                </span>
+                            </td>
+                            @else
+                            <td class="text-center px-4 py-3 text-xs hover:scale-105">
+                                <span class="inline-block px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
+                                {{$infaq->status}}
+                                </span>
+                            </td>
+                            @endif
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+
+    @push('styles')
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @endpush
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        console.log("line 92");
+    </script>
+
+    @if (Session::has('message'))
+
+        <script>
+            console.log("line 99");
+            toastr.success("{{ Session::get('message') }}");
+        </script>
+
+    @endif
+
 </x-app-layout>

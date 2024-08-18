@@ -106,13 +106,20 @@ class InfaqController extends Controller
 
         if ($infaqHistory) {
           return view('Infaq.derma', [
-            'infaqHistory' => $infaqHistory
+            'infaqHistory' => $infaqHistory,
+            'message' => 'Infaq anda telah berjaya !'
           ]);
         }
       }
 
       //dd($infaq);
-      return view('Infaq.derma');
+      return view('Infaq.derma',[
+        'message' => 'Infaq anda telah berjaya !'
+      ]);
+      //Redirect::to('users/login')->with('message', 'Infaq anda telah berjaya !');
+
+      //return back()->with('message', 'Infaq anda telah berjaya !');
+
     } catch (\Exception $e) {
       throw new NotFoundHttpException();
     }
@@ -120,7 +127,31 @@ class InfaqController extends Controller
 
   public function cancel()
   {
-    return view('Infaq.cancel');
+    $stripe = new \Stripe\StripeClient(env('STRIPE_SK'));
+
+    try {
+      $session = $stripe->checkout->sessions->retrieve($_GET['session_id']);
+      if (!$session) {
+        throw new NotFoundHttpException;
+      }
+
+      if (Auth::check()) {
+        $user = auth()->user();
+        $infaqHistory = Infaq::where('email', $user->email)->orderBy('created_at', 'desc')->get();
+
+        if ($infaqHistory) {
+          return view('Infaq.derma', [
+            'infaqHistory' => $infaqHistory
+          ])->with('message', 'Infaq anda tidak berjaya !');
+        }
+      }
+
+      //dd($infaq);
+      return view('Infaq.derma')->with('message', 'Infaq anda tidak berjaya !'); ;
+
+    } catch (\Exception $e) {
+      throw new NotFoundHttpException();
+    }
   }
 
   public function webhook()
